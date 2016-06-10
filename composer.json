@@ -1,0 +1,16 @@
+{
+    "name": "421p/ally-talks",
+    "license": "BSD-2",
+    "authors": [
+        {
+            "name": "421p",
+            "email": "andrew.bakal@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload" : {
+        "psr-4": {
+            "AllyTalks\\" : "server/src"
+        }
+    }
+}
