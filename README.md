@@ -4,7 +4,7 @@
 
 How to run a prototype:
 
-1. `vagrant up`
+1. `vagrant up` and `vagrant ssh`
 2. `cd /vagrant`
 3. `php server/bin/prototype`
 4. build and start c# application
