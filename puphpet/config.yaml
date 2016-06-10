@@ -123,7 +123,7 @@ nginx:
             server_name: allytalks.loc
             server_aliases:
                 - wwww.allytalks.loc
-            www_root: /var/www/ally
+            www_root: /vagrant/www
             listen_port: '80'
             index_files:
                 - index.html

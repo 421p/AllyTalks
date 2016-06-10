@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AllyTalksClient"
         mc:Ignorable="d"
-        Title="AllyTalks" Height="350" Width="525">
-    <Grid>
-        
+        Loaded="MainWindow_OnLoaded"
+        Title="AllyTalks" Height="350" Width="530.795">
+    <Grid Margin="0,0,245,0">
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="18" Margin="72,234,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="187"/>
+        <Button x:Name="button" Click="Button_OnClick" Content="Send" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" Width="53"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="219" Margin="10,10,0,0" VerticalAlignment="Top" Width="249"/>
+        <TextBox x:Name="nameTextBox" HorizontalAlignment="Left" Height="23" Margin="81,273,0,0" TextWrapping="Wrap" Text="Виктор Клепач" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label" Content="Ваше имя:" HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>

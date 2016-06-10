@@ -1,4 +1,6 @@
 puphpet/config-custom.yaml
+puphpet/files/doc/ssh
+
 frontend/bin
 frontend/obj
 frontend/packages
@@ -6,4 +8,7 @@ frontend/.vs
 .idea/
 
 vendor/
+.vagrant/
+
+composer.lock
 
