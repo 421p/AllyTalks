@@ -8,11 +8,16 @@ use Silex\Provider\TwigServiceProvider;
 class Application extends SilexApp
 {
     /** @var  \Twig_Environment */
-    public $twig;
+    private $twig;
+
+    private $model;
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->model = new Model();
+
         $this->registerComponents();
         $this->registerRoutes();
     }
@@ -29,12 +34,21 @@ class Application extends SilexApp
         $this->twig = $this['twig'];
     }
 
-    private function registerRoutes() {
+    private function registerRoutes()
+    {
         $this->get('/', [$this, 'mainPageController']);
+        $this->get('/users', [$this, 'userListController']);
     }
 
     public function mainPageController()
     {
         return $this->twig->render('index.twig');
+    }
+
+    public function userListController()
+    {
+        return $this->twig->render('users.twig', [
+            'users' => $this->model->getAllUsers(),
+        ]);
     }
 }

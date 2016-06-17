@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+
+<?php
+
+require __DIR__.'/../../vendor/autoload.php';
+
+use AllyTalks\ORM\DoctrineFactory;
+
+$em = DoctrineFactory::buildEntityManagerFromConfig();
+
+exec(__DIR__.'/doctrine orm:schema-tool:drop --force');
+exec(__DIR__.'/doctrine orm:schema-tool:create');
+
+DoctrineFactory::loadFixtures($em);
+
+echo "Fixtures was loaded successfuly.".PHP_EOL;
