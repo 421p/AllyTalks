@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AllyTalksClient.Model
 {
-    public class MessageHandler
+    public class MessageHandler //static singlton
     {
         public string SerializeMessage(Message message)
         {

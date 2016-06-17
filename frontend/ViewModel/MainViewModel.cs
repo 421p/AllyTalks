@@ -21,18 +21,6 @@ namespace AllyTalksClient.ViewModel
     
     public class MainViewModel : ViewModelBase
     {
-        /*
-        ObservableCollection<Client> _clients;
-        public ObservableCollection<Client> Clients
-        {
-            get
-            {
-                if (_clients == null)
-                    _clients = ClientRepository.AllClients; //связь с моделью
-                return _clients;
-            }
-        }
-        */
         ObservableCollection<UserViewModel> _userViewModels;
 
         public ObservableCollection<UserViewModel> UserViewModels

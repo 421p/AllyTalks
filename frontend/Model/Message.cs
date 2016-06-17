@@ -8,7 +8,7 @@ namespace AllyTalksClient.Model
 {
     public class Message
     {
-        public int SenderID { get; set; } 
+        public int SenderID { get; set; } //string Login
         public int ReceiverID { get; set; } 
         public string Type { get; set; }
         public string Text { get; set; }

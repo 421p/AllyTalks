@@ -8,7 +8,7 @@ namespace AllyTalksClient.Model
 {
     public class User
     {
-        public int Id { get; set; }
+        public int Id { get; set; } //without id
         public string Name { get; set; }
         public string Picture { get; set; }
 
