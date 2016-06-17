@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+
+<?php
+
+use AllyTalks\ORM\DoctrineFactory;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+
+require __DIR__.'/../../vendor/bin/doctrine.php';

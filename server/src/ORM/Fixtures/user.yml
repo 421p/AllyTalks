@@ -1,0 +1,16 @@
+AllyTalks\ORM\Entities\User:
+  user{1..10}:
+    __construct:
+      - <username()>
+      - <username()>
+      - <username()>
+      - <email()>
+    token: <numberBetween(100000, 999999)>
+
+  user{alina, klepach}:
+      __construct:
+        - <current()>
+        - <current()>
+        - <current()>
+        - <email()>
+      token: <numberBetween(100000, 999999)>

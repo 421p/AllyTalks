@@ -1,0 +1,6 @@
+doctrine:
+      dbname: dbname
+      user: dbuser
+      password: 123
+      host: localhost
+      driver: pdo_mysql
