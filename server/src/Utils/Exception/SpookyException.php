@@ -2,4 +2,6 @@
 
 namespace AllyTalks\Utils\Exception;
 
-class SpookyException extends \Exception {}
+class SpookyException extends \Exception
+{
+}

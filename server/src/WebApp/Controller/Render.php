@@ -15,6 +15,7 @@ class Render extends Controller
 
     /**
      * @controller
+     *
      * @method GET
      * @route /
      */

@@ -17,6 +17,7 @@ class Test extends Controller
 
     /**
      * @controller
+     *
      * @method GET
      * @route /users
      */
@@ -32,11 +33,13 @@ class Test extends Controller
 
     /**
      * @controller
+     *
      * @method GET
      * @route /echo
+     *
      * @param Request $request
      */
-    public function echo (Request $request)
+    public function echo(Request $request)
     {
         return sprintf(
             'request url: %s, <br>
@@ -48,6 +51,7 @@ class Test extends Controller
 
     /**
      * @controller
+     *
      * @method GET
      * @route /exception
      */

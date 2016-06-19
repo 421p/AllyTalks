@@ -68,7 +68,6 @@ class Application extends SilexApp
     private function attachControllers()
     {
         foreach ($this->controllers as $i => $controller) {
-
             foreach ($controller->getRoutes() as $methodName => $route) {
                 $method = $route['method'];
                 $route = $route['route'];
