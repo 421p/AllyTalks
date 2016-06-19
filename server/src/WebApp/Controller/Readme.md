@@ -1,6 +1,8 @@
 **Introducing controllers**
 
 ```php
+// WebApp/Controller/BasicController.php
+
 class BasicController extends Controller
 {
     /**
@@ -48,5 +50,20 @@ public function helloAgain(Request $request, Response $response)
     $response->setHeader('...');
     
     return $response;
+}
+```
+
+You can register controller via adding it to Application::registerControllers method, like:
+
+```php
+// WebApp/Application.php
+
+private function registerControllers()
+{
+    $this->controllers = [
+        new BasicController()
+        new MegaOmegaController($params),
+        ...
+    ];
 }
 ```
