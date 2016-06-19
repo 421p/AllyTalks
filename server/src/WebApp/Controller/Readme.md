@@ -1,6 +1,6 @@
 **Introducing controllers**
 
-```
+```php
 class BasicController extends Controller
 {
     /**
@@ -23,7 +23,7 @@ PHDoc annotation is user for describing the controllers.
 
 *This is a wrapper for Silex routes, so anything like dynamic routing and Symfony's request/response can be used here.*
 
-```
+```php
 /**
  * @controller
  * @method GET
@@ -35,7 +35,7 @@ public function helloSomeone($name)
 }
 ```
 
-```
+```php
 /**
  * @controller
  * @method GET
