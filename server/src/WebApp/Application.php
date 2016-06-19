@@ -2,6 +2,7 @@
 
 namespace AllyTalks\WebApp;
 
+use AllyTalks\Utils\Exception\SpookyException;
 use AllyTalks\WebApp\Controller\ControllerInterface;
 use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
@@ -25,6 +26,7 @@ class Application extends SilexApp
         $this->model = new Model();
 
         $this->registerComponents();
+        $this->registerMiddleware();
 
         $this->registerControllers();
         $this->attachControllers();
@@ -40,6 +42,19 @@ class Application extends SilexApp
         );
 
         $this->twig = $this['twig'];
+    }
+
+    private function registerMiddleware()
+    {
+        $this->error(
+            function (\Exception $e, $code) {
+                if ($e instanceof SpookyException) {
+                    return sprintf('Oh my god %s', $e->getMessage());
+                }
+
+                throw $e;
+            }
+        );
     }
 
     private function registerControllers()

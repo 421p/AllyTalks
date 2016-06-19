@@ -2,6 +2,7 @@
 
 namespace AllyTalks\WebApp\Controller;
 
+use AllyTalks\Utils\Exception\SpookyException;
 use AllyTalks\WebApp\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -43,5 +44,15 @@ class Test extends Controller
             $request->getQueryString(),
             $request->query->get('echo')
         );
+    }
+
+    /**
+     * @controller
+     * @method GET
+     * @route /exception
+     */
+    public function exception()
+    {
+        throw new SpookyException('Spooky exception was thrown!!!');
     }
 }
