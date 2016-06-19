@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace AllyTalksClient.Model
 {
-    public class MessageHandler //static singlton
+    public static class MessageHandler 
     {
-        public string SerializeMessage(Message message)
+        public static string SerializeMessage(Message message)
         {
             return JsonConvert.SerializeObject(message);
         }
 
-        public Message DeserializeMessage(string data)
+        public static Message DeserializeMessage(string data)
         {
             var json = JObject.Parse(data);
             var type = (string)json["Type"];

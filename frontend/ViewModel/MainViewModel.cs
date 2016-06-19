@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace AllyTalksClient.ViewModel
 {
@@ -58,6 +59,7 @@ namespace AllyTalksClient.ViewModel
                         MessageViewModels.Add(new MessageViewModel(message));
                     }
                 }
+                //Console.WriteLine("!");
                 return _messageViewModels; 
             }
             set
@@ -65,6 +67,7 @@ namespace AllyTalksClient.ViewModel
                 _messageViewModels = value;
                 RaisePropertyChanged("MessageViewModels");
             }
+          
         }
 
         private User _sender;
@@ -114,7 +117,7 @@ namespace AllyTalksClient.ViewModel
             {
                 if (_currentMessage == null)
                     _currentMessage = 
-                        new Message() { Type = "message", Time = DateTime.Now, ReceiverID = Receiver.Id, SenderID = Sender.Id }; //time should be somehow get from server, not sent by client
+                        new Message() { Type = "message", Time = DateTime.Now, Receiver = Receiver.Login, Sender = Sender.Login }; //time should be somehow get from server, not sent by client
                 return _currentMessage;
             }
             set
@@ -124,14 +127,14 @@ namespace AllyTalksClient.ViewModel
             }
         }
 
-        private ClientServerMessanger _messanger;
+        private ClientServerMessenger _messanger;
 
-        public ClientServerMessanger Messanger
+        public ClientServerMessenger Messanger
         {
             get
             {
                 if (_messanger == null)
-                    _messanger = new ClientServerMessanger();
+                    _messanger = new ClientServerMessenger();
                 return _messanger;
             }
             set
@@ -142,12 +145,12 @@ namespace AllyTalksClient.ViewModel
         }
 
         public RelayCommand SendMessageCommand { get; set; }
-        public RelayCommand ConnectWSCommand { get; set; }
+        public RelayCommand ConnectWsCommand { get; set; }
         
         public MainViewModel()
         {
             SendMessageCommand = new RelayCommand(SendMessage);
-            ConnectWSCommand = new RelayCommand(ConnectWS);
+            ConnectWsCommand = new RelayCommand(ConnectWs);
             
             Sender = new User();
             Sender = JustForTestRepository.CurrentUser;
@@ -155,24 +158,31 @@ namespace AllyTalksClient.ViewModel
             Receiver = new User();
             Receiver = JustForTestRepository.AllFriends[0]; //for testing
 
-            Messanger = new ClientServerMessanger("ws://127.0.0.1:7777");
+            Messanger = new ClientServerMessenger("ws://127.0.0.1:7777");
         }
 
         private void SendMessage()
         {
             Messanger.Write(CurrentMessage);
-
-            //this shows only my messages sent but not received, can not find way to bind changes in model from outside with viewmodel 
-            
-            _messageViewModels.Add(new MessageViewModel(CurrentMessage));
-            
+           
+            //Dispatcher.CurrentDispatcher.Invoke(() =>
+          //  {
+            //    _messageViewModels.Add(new MessageViewModel(CurrentMessage));
+          //  });
+           
+         
             CurrentMessage = null;
             MessageViewModels = null;
+           // ScrollViewer.ScrollToBottom();
         }
 
-        private void ConnectWS()
+        private void ConnectWs()
         {
             Messanger.Connect();
         }
+
+
+
+       
     }
 }

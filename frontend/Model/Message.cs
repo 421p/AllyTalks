@@ -8,8 +8,8 @@ namespace AllyTalksClient.Model
 {
     public class Message
     {
-        public int SenderID { get; set; } //string Login
-        public int ReceiverID { get; set; } 
+        public string Sender { get; set; }
+        public string Receiver { get; set; } 
         public string Type { get; set; }
         public string Text { get; set; }
         public DateTime Time { get; set; } 
@@ -19,10 +19,10 @@ namespace AllyTalksClient.Model
 
         }
 
-        public Message(int senderID, int receiverID, string type, string text, DateTime time)
+        public Message(string sender, string receiver, string type, string text, DateTime time)
         {
-            SenderID = senderID;
-            ReceiverID = receiverID;
+            Sender = sender;
+            Receiver = receiver;
             Type = type;
             Text = text;
             Time = time;

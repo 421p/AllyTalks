@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,28 +11,31 @@ using WebSocketSharp;
 
 namespace AllyTalksClient.Model
 {
-    public class ClientServerMessanger 
+    public class ClientServerMessenger 
     {
         private WebSocket _websocket;
-        private MessageHandler _msghandler;
 
-        public ClientServerMessanger(){ }
+        public ClientServerMessenger(){ }
     
-        public ClientServerMessanger(string url)
+        public ClientServerMessenger(string url)
         {
             _websocket = new WebSocket(url);
-            _msghandler = new MessageHandler();
 
-            configure();
+            Configure();
         }
 
-        private void configure() 
+        private void Configure() 
         {
             _websocket.OnMessage += (sender, e) =>
             {
                 if (e.IsText)
                 {
-                    JustForTestRepository.AllMessages.Add(_msghandler.DeserializeMessage(e.Data));
+                    JustForTestRepository.AllMessages.Add(MessageHandler.DeserializeMessage(e.Data));
+                    foreach (var item in JustForTestRepository.AllMessages)
+                    {
+                        Console.WriteLine(item.Text);
+                    }
+            
                 }
             };
         }
@@ -42,7 +47,7 @@ namespace AllyTalksClient.Model
 
         public void Write(Message message)
         {
-            _websocket.Send(_msghandler.SerializeMessage(message));
+            _websocket.Send(MessageHandler.SerializeMessage(message));
         }
     }
 }
