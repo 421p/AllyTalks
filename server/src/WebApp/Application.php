@@ -4,10 +4,12 @@ namespace AllyTalks\WebApp;
 
 use AllyTalks\Utils\Exception\SpookyException;
 use AllyTalks\WebApp\Controller\ControllerInterface;
+use AllyTalks\WebApp\Controller\Registration;
 use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
 use Silex\Application as SilexApp;
 use Silex\Provider\TwigServiceProvider;
+
 
 class Application extends SilexApp
 {
@@ -42,6 +44,8 @@ class Application extends SilexApp
         );
 
         $this->twig = $this['twig'];
+
+       
     }
 
     private function registerMiddleware()
@@ -62,6 +66,7 @@ class Application extends SilexApp
         $this->controllers = [
             new Test($this),
             new Render($this),
+            new Registration($this)
         ];
     }
 

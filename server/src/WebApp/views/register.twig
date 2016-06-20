@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register page</title>
+
+</head>
+<body>
+    <form method="post" action="/post/reg">
+        <h1>Registration</h1>
+        <p>Your nickname: <input type="text" name="nickname" value="{{nickname}}" />{{nicknameErr}}</p>
+        <p>Your login: <input type="text" name="login" value="{{login}}" />{{loginErr}}</p>
+        <p>Your password: <input type="password" name="password" value="" />{{passwordErr}}</p>
+        <p>Your email: <input type="text" name="email" value="{{email}}" />{{emailErr}}</p>
+        <input type="submit" value="Submit" />
+    </form>
+
+</body>
+</html>

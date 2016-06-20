@@ -22,4 +22,23 @@ class Model
             ->getQuery()
             ->getResult();
     }
+
+    public function addUser(array $data)
+    {
+        $user = $this->em->createQueryBuilder()
+            ->select('user')
+            ->from(User::class, 'user')
+            ->where('user.login = :login')
+            ->setParameter('login', $data['login'])
+            ->getQuery()->getOneOrNullResult();
+        
+        if(!$user) {
+            $user = new User($data['login'], $data['password'], $data['nickname'], $data['email']);
+            $user->setToken('for test'); //should be replaced
+            $this->em->persist($user);
+            $this->em->flush();
+            return true;
+        } else
+            return false;
+    }
 }
