@@ -6,10 +6,12 @@ use AllyTalks\Utils\Exception\JsonException;
 use AllyTalks\Utils\Exception\SpookyException;
 use AllyTalks\WebApp\Controller\Auth;
 use AllyTalks\WebApp\Controller\ControllerInterface;
+use AllyTalks\WebApp\Controller\Registration;
 use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
 use Silex\Application as SilexApp;
 use Silex\Provider\TwigServiceProvider;
+
 
 class Application extends SilexApp
 {
@@ -51,7 +53,7 @@ class Application extends SilexApp
         $this->error(
             function (\Exception $e, $code) {
                 if ($e instanceof SpookyException) {
-                    return sprintf('Oh my god %s', $e->getMessage());
+                    return sprintf('%s', $e->getMessage());
                 } elseif ($e instanceof JsonException) {
                     return $e->getMessage();
                 }
@@ -66,6 +68,7 @@ class Application extends SilexApp
         $this->controllers = [
             new Test($this),
             new Render($this),
+            new Registration($this),
             new Auth($this->model),
         ];
     }

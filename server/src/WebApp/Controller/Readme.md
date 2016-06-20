@@ -17,13 +17,13 @@ class BasicController extends Controller
 
 ```
 
-PHDoc annotation is user for describing the controllers.
+PHPDoc annotations is used for describing controllers.
 
 `@controller` - any method marked as controller will be attached to the application. <br>
 `@method` - get, post, etc.<br>
 `@route` - route to this controller, for example `mysite.loc/helloworld`
 
-*This is a wrapper for Silex routes, so anything like dynamic routing and Symfony's request/response can be used here.*
+*This is a wrapper for Silex routes so all stuff like dynamic routing and Symfony request/response can be used here.*
 
 ```php
 /**
@@ -53,7 +53,7 @@ public function helloAgain(Request $request, Response $response)
 }
 ```
 
-You can register controller via adding it to Application::registerControllers method, like:
+You can register controller by adding it to `Application::registerControllers` method:
 
 ```php
 // WebApp/Application.php
