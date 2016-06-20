@@ -51,6 +51,8 @@ class CommServer implements MessageComponentInterface
 
         if ($message['receiver'] === 'service') {
             $this->router->processServiceMessage($from, $message);
+        } else {
+            $this->router->processRegularMessage($from, $message);
         }
     }
 
