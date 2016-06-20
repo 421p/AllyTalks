@@ -22,4 +22,14 @@ class Model
             ->getQuery()
             ->getResult();
     }
+
+    public function getUserByLogin(string $login) : User
+    {
+        return $this->em->createQueryBuilder()
+            ->select('usr')
+            ->from(User::class, 'usr')
+            ->where('usr.login = :log')
+            ->setParameter('log', $login)
+            ->getQuery()->getOneOrNullResult();
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace AllyTalks\WebApp;
 
+use AllyTalks\Utils\Exception\JsonException;
 use AllyTalks\Utils\Exception\SpookyException;
+use AllyTalks\WebApp\Controller\Auth;
 use AllyTalks\WebApp\Controller\ControllerInterface;
 use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
@@ -50,6 +52,8 @@ class Application extends SilexApp
             function (\Exception $e, $code) {
                 if ($e instanceof SpookyException) {
                     return sprintf('Oh my god %s', $e->getMessage());
+                } elseif ($e instanceof JsonException) {
+                    return $e->getMessage();
                 }
 
                 throw $e;
@@ -62,6 +66,7 @@ class Application extends SilexApp
         $this->controllers = [
             new Test($this),
             new Render($this),
+            new Auth($this->model),
         ];
     }
 
