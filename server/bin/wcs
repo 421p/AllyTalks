@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+
+use AllyTalks\WebsocketCommunicationServer\CommServer;
+use Ratchet\App;
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+$app = new App('localhost', 7777);
+
+$app->route('/wcs', new CommServer);
+
+$app->run();
