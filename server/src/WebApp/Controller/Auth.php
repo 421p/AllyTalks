@@ -31,6 +31,8 @@ class Auth extends Controller
         
         if ($user->verifyPassword($password)) {
             $user->generateNewToken();
+            $this->model->initiateFlushing();
+
             return new JsonResponse(['token' => $user->getToken()]);
         } else {
             throw new JsonException('wrong login or password', 401);

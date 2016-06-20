@@ -3,12 +3,19 @@
 <?php
 
 use AllyTalks\WebsocketCommunicationServer\CommServer;
-use Ratchet\App;
+use Ratchet\Http\HttpServer;
+use Ratchet\Server\IoServer;
+use Ratchet\WebSocket\WsServer;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$app = new App('localhost', 7777);
+$server = IoServer::factory(
+    new HttpServer(
+        new WsServer(
+            new CommServer()
+        )
+    ),
+    7777
+);
 
-$app->route('/wcs', new CommServer);
-
-$app->run();
+$server->run();

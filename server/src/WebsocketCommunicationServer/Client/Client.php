@@ -35,4 +35,9 @@ class Client
     {
         $this->user = $user;
     }
+
+    public function getResourceId()
+    {
+        return $this->connection->resourceId;
+    }
 }
