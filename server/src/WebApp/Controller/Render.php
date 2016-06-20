@@ -32,11 +32,9 @@ class Render extends Controller
      *
      * @method GET
      * @route /register
-     * @param array $errors
-     * @param array $data
      */
-    public function registrationPageController($errors=[], $data=[])
+    public function registrationPageController()
     {
-        return $this->twig->render('register.twig', array_merge($errors, $data));
+        return $this->twig->render('register.twig');
     }
 }

@@ -53,7 +53,7 @@ class Application extends SilexApp
         $this->error(
             function (\Exception $e, $code) {
                 if ($e instanceof SpookyException) {
-                    return sprintf('Oh my god %s', $e->getMessage());
+                    return sprintf('%s', $e->getMessage());
                 }
 
                 throw $e;
