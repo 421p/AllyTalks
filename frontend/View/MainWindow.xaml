@@ -5,28 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:AllyTalksClient.ViewModel"
-        xmlns:ext="clr-namespace:AllyTalksClient.View.Extenders"
+        xmlns:spike="clr-namespace:AllyTalksClient.Model"
         mc:Ignorable="d"
         Title="AllyTalks" Height="350" Width="600"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:UserViewModel}">
-            <Grid>
-                <Image x:Name="imgUserPic" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Margin="10,10,0,0" Stretch="Fill" Source="{Binding FriendInfo.Picture}"/>
-                <Label x:Name="lblUserName" Content="{Binding FriendInfo.Nickname}" HorizontalAlignment="Left" Margin="78,20,0,0" VerticalAlignment="Top" Width="162" Height="40"/>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type local:MessageViewModel}">
+        <DataTemplate DataType="{x:Type spike:Message}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60*"/>
-                    <ColumnDefinition Width="400*"/>
-                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="imgUserPic" Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,0" Stretch="Fill" Source="http://www.mediaport.ua/sites/default/files/mp/images/Pyrlik/1390902766_klichko-vitaliy.jpeg"></Image>
-                <TextBlock x:Name="txtBlockMessage" Text="{Binding MessageInfo.Text}" TextWrapping="WrapWithOverflow" Grid.Column="1" Margin="10" VerticalAlignment="Top"/>
-                <Label x:Name="lblTimeOfMessage" Content="Time" Grid.Column="2" VerticalAlignment="Top"></Label>
+                <Image Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,0" Stretch="Fill" Source="{Binding Sender.Picture}"></Image>
+                <TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow" Grid.Column="1" Margin="10" VerticalAlignment="Top"/>
+                <Label Grid.Column="2" VerticalAlignment="Top" Content="{Binding Time}"></Label>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type spike:User}">
+            <Grid>
+                <Image x:Name="imgUserPic" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" Margin="10,10,0,0" Stretch="Fill" Source="{Binding Picture}"/>
+                <Label x:Name="lblUserName" Content="{Binding Nickname}" HorizontalAlignment="Left" Margin="78,20,0,0" VerticalAlignment="Top" Width="162" Height="40"/>
             </Grid>
         </DataTemplate>
     </Window.Resources>
@@ -84,26 +84,19 @@
             <GridSplitter Grid.Column="0" Width="5" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
             <ScrollViewer Grid.Column="0" Grid.RowSpan="2" >
                 <StackPanel>
-                    <ListBox x:Name="lstFriends" ItemsSource="{Binding UserViewModels}" 
+                    <ListBox x:Name="lstFriends" ItemsSource="{Binding Users}" 
                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              Background="Transparent" BorderBrush="Transparent">
                     </ListBox>
                 </StackPanel>
             </ScrollViewer>
-            <ScrollViewer Grid.Column="1" Grid.ColumnSpan="2">
-                <StackPanel>
-                    <ListBox x:Name="lstMessages" ItemsSource="{Binding MessageViewModels}" 
+            <ScrollViewer local:AutoScrollHelper.AutoScroll="{Binding IsNewItemInContainer}" Grid.Column="1" Grid.ColumnSpan="2">
+
+                    <ListBox x:Name="lstMessages" Grid.RowSpan="3" ItemsSource="{Binding Messages}"
                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             Background="Transparent" BorderBrush="Transparent"
-                             >
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Focusable" Value="False"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
+                             Background="Transparent" BorderBrush="Transparent">
                     </ListBox>
-                    
-                </StackPanel>
+             
             </ScrollViewer>
             <TextBox x:Name="txtMessage" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="False" FontSize="14"
                      Text="{Binding Path=CurrentMessage.Text, UpdateSourceTrigger=PropertyChanged}"/>
@@ -119,7 +112,7 @@
                 <Button x:Name="btnSmile" Grid.Row="0" Grid.Column="0">
                     <Image ></Image>
                 </Button>
-                <Button x:Name="btnSendMessage" Grid.RowSpan="2" Grid.Column="1" Command="{Binding SendMessageCommand}" IsDefault="True">
+                <Button x:Name="btnSendMessage" Grid.RowSpan="2" Grid.Column="1" Command="{Binding SendMessageCommand}" IsDefault="True" Content="Send">
                     <Button.Style>
                         <Style>
                             <Style.Triggers>
@@ -134,7 +127,7 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="btnClipFile" Grid.Row="1" Grid.Column="0">
-                    <Image  ></Image>
+                    <Image></Image>
                 </Button>
             </Grid>
         </Grid>

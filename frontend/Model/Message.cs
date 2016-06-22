@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,26 +9,20 @@ namespace AllyTalksClient.Model
 {
     public class Message
     {
-        public string Sender { get; set; }
-        public string Receiver { get; set; } 
+        public User Sender { get; set; }
+        public User Receiver { get; set; }
         public string Type { get; set; }
         public string Text { get; set; }
-        public DateTime Time { get; set; } 
+        public string Time { get; set; }
 
-        public Message()
+        public Message() { }
+
+        public Message(User receiver, string type)
         {
-
-        }
-
-        public Message(string sender, string receiver, string type, string text, DateTime time)
-        {
-            Sender = sender;
+            Sender = JustForTestRepository.CurrentUser;
             Receiver = receiver;
             Type = type;
-            Text = text;
-            Time = time;
+            Time = DateTime.Now.ToShortTimeString();
         }
-
-      
     }
 }

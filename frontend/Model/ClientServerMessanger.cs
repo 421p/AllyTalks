@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using WebSocketSharp;
 
 namespace AllyTalksClient.Model
@@ -28,21 +30,19 @@ namespace AllyTalksClient.Model
         {
             _websocket.OnMessage += (sender, e) =>
             {
-                if (e.IsText)
-                {
-                    JustForTestRepository.AllMessages.Add(MessageHandler.DeserializeMessage(e.Data));
-                    foreach (var item in JustForTestRepository.AllMessages)
-                    {
-                        Console.WriteLine(item.Text);
-                    }
-            
-                }
+                DispatchIt(() => JustForTestRepository.AllMessages.Add(MessageHandler.DeserializeMessage(e.Data)));
             };
         }
 
         public void Connect()
         {
             _websocket.Connect();
+        }
+
+        private void DispatchIt(Action action)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Background, action);
         }
 
         public void Write(Message message)

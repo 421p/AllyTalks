@@ -83,8 +83,7 @@
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\MessageHandler.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="ViewModel\MessageViewModel.cs" />
-    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="ViewModel\AutoScrollHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="Themes\BureauBlack.xaml">
@@ -123,7 +122,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\Extenders\ListBoxExtenders.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -158,25 +156,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\home.png" />
+    <Resource Include="View\Images\home.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\contacts.png" />
+    <Resource Include="View\Images\contacts.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\search.png" />
+    <Resource Include="View\Images\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\exit.png" />
+    <Resource Include="View\Images\exit.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\clip.png" />
+    <Resource Include="View\Images\clip.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\smile.png" />
+    <Resource Include="View\Images\smile.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\send.png" />
+    <Resource Include="View\Images\send.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

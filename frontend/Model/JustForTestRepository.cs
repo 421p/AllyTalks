@@ -55,7 +55,7 @@ namespace AllyTalksClient.Model
 
         private static User DetermineCurrentUser()
         {
-            return new User("3", "Kotik", "http://cdn.grumpycats.com/wp-content/uploads/2016/02/12654647_974282002607537_7798179861389974677_n-758x758.jpg");
+            return new User("3", "Kotik", "https://pbs.twimg.com/profile_images/582281068503531522/XxZ0QWV_.jpg");
         }
 
         

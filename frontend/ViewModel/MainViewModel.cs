@@ -7,105 +7,28 @@ using System.Windows.Threading;
 
 namespace AllyTalksClient.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
-    
     public class MainViewModel : ViewModelBase
     {
-        ObservableCollection<UserViewModel> _userViewModels;
+        private ClientServerMessenger _messenger;
 
-        public ObservableCollection<UserViewModel> UserViewModels
+        public RelayCommand SendMessageCommand { get; set; }
+        public RelayCommand ConnectWsCommand { get; set; }
+
+        //should be realized for sending private messages
+        private User _currentReceiver;
+
+        public User CurrentReceiver
         {
             get
             {
-                if (_userViewModels == null)
-                {
-                    UserViewModels = new ObservableCollection<UserViewModel>();
-                    foreach (var friend in JustForTestRepository.AllFriends)
-                    {
-                        UserViewModels.Add(new UserViewModel(friend));
-                    }
-                }
-                return _userViewModels; 
+                if (_currentReceiver == null)
+                    _currentReceiver = new User();
+                return _currentReceiver;
             }
             set
             {
-                _userViewModels = value;
-                RaisePropertyChanged("UserViewModels");
-            }
-        }
-
-        ObservableCollection<MessageViewModel> _messageViewModels;
-
-        public ObservableCollection<MessageViewModel> MessageViewModels
-        {
-            get 
-            {
-                if (_messageViewModels == null)
-                {
-                    MessageViewModels = new ObservableCollection<MessageViewModel>();
-                    foreach (var message in JustForTestRepository.AllMessages)
-                    {
-                        MessageViewModels.Add(new MessageViewModel(message));
-                    }
-                }
-                //Console.WriteLine("!");
-                return _messageViewModels; 
-            }
-            set
-            {
-                _messageViewModels = value;
-                RaisePropertyChanged("MessageViewModels");
-            }
-          
-        }
-
-        private User _sender;
-
-        public User Sender
-        {
-            get
-            {
-                if (_sender == null)
-                    _sender = new User();
-                return _sender;
-            }
-            set
-            {
-                _sender = value;
-                RaisePropertyChanged("Sender");
-            }
-        }
-
-        /// <summary>
-        /// Receiver - SelectedItem from Listbox 
-        /// will be programmed later
-        /// </summary>
-
-        private User _receiver;
-
-        public User Receiver
-        {
-            get
-            {
-                if (_receiver == null)
-                    _receiver = new User();
-                return _receiver;
-            }
-            set
-            {
-                _receiver = value;
-                RaisePropertyChanged("Receiver");
+                _currentReceiver = value;
+                RaisePropertyChanged("CurrentReceiver");
             }
         }
 
@@ -116,8 +39,7 @@ namespace AllyTalksClient.ViewModel
             get
             {
                 if (_currentMessage == null)
-                    _currentMessage = 
-                        new Message() { Type = "message", Time = DateTime.Now, Receiver = Receiver.Login, Sender = Sender.Login }; //time should be somehow get from server, not sent by client
+                    _currentMessage = new Message(CurrentReceiver, "message"); 
                 return _currentMessage;
             }
             set
@@ -127,62 +49,69 @@ namespace AllyTalksClient.ViewModel
             }
         }
 
-        private ClientServerMessenger _messanger;
-
-        public ClientServerMessenger Messanger
+        ObservableCollection<Message> _messages;
+        public ObservableCollection<Message> Messages
         {
             get
             {
-                if (_messanger == null)
-                    _messanger = new ClientServerMessenger();
-                return _messanger;
-            }
-            set
-            {
-                _messanger = value;
-                RaisePropertyChanged("Messanger");
+                if (_messages == null)
+                {
+                    _messages = JustForTestRepository.AllMessages;
+                }
+                return _messages;
             }
         }
 
-        public RelayCommand SendMessageCommand { get; set; }
-        public RelayCommand ConnectWsCommand { get; set; }
+        ObservableCollection<User> _users;
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                if (_users == null)
+                {
+                    _users = JustForTestRepository.AllFriends;
+                }
+                return _users;
+            }
+        }
+
+         private bool _isNewItemInContainer;
+
+         public bool IsNewItemInContainer
+         {
+            get
+            {
+                return _isNewItemInContainer;
+            }
+            set
+            {
+                _isNewItemInContainer = value;
+                RaisePropertyChanged("IsNewItemInContainer");
+            }
+        }
         
+
         public MainViewModel()
         {
+            _messenger = new ClientServerMessenger("ws://127.0.0.1:7777");
+
             SendMessageCommand = new RelayCommand(SendMessage);
             ConnectWsCommand = new RelayCommand(ConnectWs);
-            
-            Sender = new User();
-            Sender = JustForTestRepository.CurrentUser;
-
-            Receiver = new User();
-            Receiver = JustForTestRepository.AllFriends[0]; //for testing
-
-            Messanger = new ClientServerMessenger("ws://127.0.0.1:7777");
+           
+            CurrentReceiver = JustForTestRepository.AllFriends[0]; //for testing
         }
 
         private void SendMessage()
         {
-            Messanger.Write(CurrentMessage);
-           
-            //Dispatcher.CurrentDispatcher.Invoke(() =>
-          //  {
-            //    _messageViewModels.Add(new MessageViewModel(CurrentMessage));
-          //  });
-           
-         
+            _messenger.Write(CurrentMessage);
+
+            IsNewItemInContainer = true;
             CurrentMessage = null;
-            MessageViewModels = null;
-           // ScrollViewer.ScrollToBottom();
         }
 
         private void ConnectWs()
         {
-            Messanger.Connect();
+            _messenger.Connect();
         }
-
-
-
-       
     }
 }

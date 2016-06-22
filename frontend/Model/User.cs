@@ -8,14 +8,11 @@ namespace AllyTalksClient.Model
 {
     public class User
     {
-        public string Login { get; set; } 
+        public string Login { get; set; }
         public string Nickname { get; set; }
         public string Picture { get; set; }
 
-        public User()
-        {
-
-        }
+        public User() { }
 
         public User(string login, string name, string picture)
         {
@@ -24,5 +21,4 @@ namespace AllyTalksClient.Model
             Picture = picture;
         }
     }
-
 }
