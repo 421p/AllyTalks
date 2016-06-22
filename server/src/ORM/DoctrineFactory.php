@@ -21,7 +21,7 @@ class DoctrineFactory
 
         $config = Yaml::parse(
             file_get_contents(
-                $_ENV['IS_CI'] ? __DIR__.'/../../config/travis-config.yml' :
+                getenv('IS_CI') == true ? __DIR__.'/../../config/travis-config.yml' :
                     __DIR__.'/../../config/config.yml'
             )
         );
