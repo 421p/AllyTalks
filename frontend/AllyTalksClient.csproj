@@ -60,6 +60,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -156,25 +157,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\home.png" />
+    <Resource Include="Images\home.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\contacts.png" />
+    <Resource Include="Images\contacts.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\search.png" />
+    <Resource Include="Images\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\exit.png" />
+    <Resource Include="Images\exit.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\clip.png" />
+    <Resource Include="Images\clip.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\smile.png" />
+    <Resource Include="Images\smile.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\send.png" />
+    <Resource Include="Images\send.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

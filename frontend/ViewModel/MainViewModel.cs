@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Windows.Threading;
 
 namespace AllyTalksClient.ViewModel
@@ -90,10 +91,9 @@ namespace AllyTalksClient.ViewModel
             }
         }
         
-
         public MainViewModel()
         {
-            _messenger = new ClientServerMessenger("ws://127.0.0.1:7777");
+            _messenger = new ClientServerMessenger(ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString);
 
             SendMessageCommand = new RelayCommand(SendMessage);
             ConnectWsCommand = new RelayCommand(ConnectWs);
