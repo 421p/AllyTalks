@@ -1,0 +1,11 @@
+language: php
+sudo: false
+php:
+  - '7.0'
+install:
+  - composer install
+  - 'php server/bin/doctrine orm:schema-tool:create'
+  - 'php server/bin/fixtures'
+cache:
+  directories:
+    - vendor
