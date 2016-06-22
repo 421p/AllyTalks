@@ -19,7 +19,12 @@ class DoctrineFactory
             $isDevMode
         );
 
-        $config = Yaml::parse(file_get_contents(__DIR__.'/../../config/config.yml'));
+        $config = Yaml::parse(
+            file_get_contents(
+                $_ENV['IS_CI'] ? __DIR__.'/../../config/travis-config.yml' :
+                    __DIR__.'/../../config/config.yml'
+            )
+        );
         $conn = $config['doctrine'];
 
         return EntityManager::create($conn, $configuration);

@@ -43,6 +43,12 @@ class Model
             <a href="/register">Return to Registration</a>');
     }
 
+    public function deleteUser(User $user)
+    {
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
     public function getUserByLogin(string $login) : User
     {
         $user = $this->em->createQueryBuilder()
@@ -78,5 +84,10 @@ class Model
     public function initiateFlushing()
     {
         $this->em->flush();
+    }
+    
+    public function getEm()
+    {
+        return $this->em;
     }
 }

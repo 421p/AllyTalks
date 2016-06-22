@@ -9,3 +9,9 @@ install:
 cache:
   directories:
     - vendor
+services:
+  - mysql
+env:
+  - IS_CI=true
+before_script:
+  - mysql -e 'create database dbname;'
