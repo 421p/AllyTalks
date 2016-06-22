@@ -42,4 +42,41 @@ class Model
             throw new SpookyException('<h3>User with such login already exists!</h3> 
             <a href="/register">Return to Registration</a>');
     }
+
+    public function getUserByLogin(string $login) : User
+    {
+        $user = $this->em->createQueryBuilder()
+            ->select('usr')
+            ->from(User::class, 'usr')
+            ->where('usr.login = :log')
+            ->setParameter('log', $login)
+            ->getQuery()->getOneOrNullResult();
+
+        if($user) {
+            return $user;
+        } else {
+            throw new \RuntimeException('No user found with current login.');
+        }
+    }
+
+    public function getUserByToken(string $token) : User
+    {
+        $user = $this->em->createQueryBuilder()
+            ->select('usr')
+            ->from(User::class, 'usr')
+            ->where('usr.token = :tok')
+            ->setParameter('tok', $token)
+            ->getQuery()->getOneOrNullResult();
+
+        if($user) {
+            return $user;
+        } else {
+            throw new \RuntimeException('No user found with current token.');
+        }
+    }
+
+    public function initiateFlushing()
+    {
+        $this->em->flush();
+    }
 }
