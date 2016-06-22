@@ -18,7 +18,8 @@
     "require-dev": {
         "symfony/var-dumper": "^3.1",
         "nelmio/alice": "^2.1",
-        "doctrine/data-fixtures": "^1.1"
+        "doctrine/data-fixtures": "^1.1",
+        "phpunit/phpunit": "^5.4"
     }
     ,
     "autoload" : {
