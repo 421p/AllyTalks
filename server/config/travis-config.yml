@@ -1,0 +1,5 @@
+doctrine:
+      dbname: dbname
+      user: travis
+      host: localhost
+      driver: pdo_mysql

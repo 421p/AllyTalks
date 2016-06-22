@@ -1,0 +1,16 @@
+language: php
+sudo: false
+php:
+  - '7.0'
+install:
+  - composer install
+  - mysql -e 'create database dbname;'
+  - 'php server/bin/doctrine orm:schema-tool:create'
+  - 'php server/bin/fixtures'
+cache:
+  directories:
+    - vendor
+services:
+  - mysql
+env:
+  - IS_CI=true

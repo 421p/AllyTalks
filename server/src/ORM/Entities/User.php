@@ -39,6 +39,7 @@ class User
         $this->email = $email;
         $this->nickname = $nickname;
         $this->passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        $this->generateNewToken();
     }
 
     public function getId() : int
@@ -99,5 +100,10 @@ class User
     public function setToken(string $token)
     {
         $this->token = $token;
+    }
+
+    public function generateNewToken()
+    {
+        $this->setToken(urlencode(openssl_random_pseudo_bytes(16)));
     }
 }
