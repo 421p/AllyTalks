@@ -15,7 +15,7 @@ class Client
         $this->connection = $connection;
         $this->user = $user;
     }
-    
+
     public function getConnection() : ConnectionInterface
     {
         return $this->connection;

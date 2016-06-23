@@ -10,7 +10,6 @@ use Ratchet\MessageComponentInterface;
 
 class CommServer implements MessageComponentInterface
 {
-
     /** @var Client[] */
     private $clients = [];
     private $randomConnections = [];
@@ -23,29 +22,29 @@ class CommServer implements MessageComponentInterface
         $this->router = new Router($this);
     }
 
-    function onOpen(ConnectionInterface $conn)
+    public function onOpen(ConnectionInterface $conn)
     {
         $this->randomConnections[$conn->resourceId] = $conn;
     }
 
-    function onClose(ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $conn)
     {
         if (array_key_exists($conn->resourceId, $this->clients)) {
             unset($this->randomConnections[$conn->resourceId]);
         }
     }
 
-    function onError(ConnectionInterface $conn, \Exception $e)
+    public function onError(ConnectionInterface $conn, \Exception $e)
     {
         $conn->send(json_encode([
             'type' => 'error',
             'sender' => 'service',
-            'message' => $e->getMessage()
+            'message' => $e->getMessage(),
         ]));
         echo $e->getMessage().PHP_EOL;
     }
 
-    function onMessage(ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $from, $msg)
     {
         $message = json_decode($msg, true);
 
@@ -64,15 +63,15 @@ class CommServer implements MessageComponentInterface
     public function addClient(Client $client)
     {
         foreach ($this->clients as $i => $cli) {
-            if ($client->getResourceId() === $cli-> getResourceId()) {
+            if ($client->getResourceId() === $cli->getResourceId()) {
                 unset($this->clients[$i]);
             }
         }
-        
+
         $this->clients[] = $client;
         unset($this->randomConnections[$client->getConnection()->resourceId]);
     }
-    
+
     public function getClients() : array
     {
         return $this->clients;
@@ -85,7 +84,7 @@ class CommServer implements MessageComponentInterface
         }
 
         foreach ($this->clients as $i => $cli) {
-            if ($client->getResourceId() === $cli-> getResourceId()) {
+            if ($client->getResourceId() === $cli->getResourceId()) {
                 unset($this->clients[$i]);
             }
         }

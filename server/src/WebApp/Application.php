@@ -11,7 +11,7 @@ use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
 use Silex\Application as SilexApp;
 use Silex\Provider\TwigServiceProvider;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class Application extends SilexApp
 {
@@ -53,9 +53,9 @@ class Application extends SilexApp
         $this->error(
             function (\Exception $e, $code) {
                 if ($e instanceof SpookyException) {
-                    return sprintf('%s', $e->getMessage());
+                    return new Response($e->getMessage(), 401);
                 } elseif ($e instanceof JsonException) {
-                    return $e->getMessage();
+                    return new Response($e->getMessage(), $e->getStatusCode());
                 }
 
                 throw $e;

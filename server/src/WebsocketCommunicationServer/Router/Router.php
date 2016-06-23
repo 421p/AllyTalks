@@ -28,7 +28,7 @@ class Router
                     $sender->send(json_encode([
                         'sender' => 'service',
                         'type' => 'auth',
-                        'message' => 'success'
+                        'message' => 'success',
                     ]));
                 } else {
                     throw new \RuntimeException('Incorrect token.');
@@ -50,7 +50,7 @@ class Router
 
                 /** @var Client $from */
                 $from = Enumerable::from($this->server->getClients())->where(
-                    function(Client $c) use ($sender) {
+                    function (Client $c) use ($sender) {
                         return $c->getResourceId() === $sender->resourceId;
                     }
                 )->firstOrDefault();
@@ -65,7 +65,7 @@ class Router
 
                 /** @var Client $to */
                 $to = Enumerable::from($this->server->getClients())->where(
-                    function(Client $c) use ($receiver) {
+                    function (Client $c) use ($receiver) {
                         return $c->getUser()->getLogin() === $receiver;
                     }
                 )->firstOrDefault();
@@ -77,7 +77,7 @@ class Router
                 $to->getConnection()->send(json_encode([
                     'sender' => $from->getUser()->getLogin(),
                     'type' => 'message',
-                    'message' => $message['message']
+                    'message' => $message['message'],
                 ]));
 
                 break;
