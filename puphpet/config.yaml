@@ -19,16 +19,16 @@ vagrantfile:
                         check_guest_tools: 0
                         update_guest_tools: 0
                 machines:
-                    vflm_j2v87czhmqou:
+                    vflm_ug3hnzdx6keo:
                         id: default
                         hostname: default.puphpet
                         network:
                             private_network: 192.168.56.101
                             forwarded_port:
-                                vflmnfp_8xj7yawhsh8t:
+                                vflmnfp_148ulxbb8dzr:
                                     host: '7714'
                                     guest: '22'
-                                vflmnfp_k15insssdplp:
+                                vflmnfp_szrdriecfmi7:
                                     host: '7777'
                                     guest: '7777'
                         memory: '512'
@@ -41,7 +41,7 @@ vagrantfile:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
         synced_folder:
-            vflsf_tdfadb4xuat0:
+            vflsf_rm18t2i1gcfi:
                 source: ./
                 target: /vagrant
                 sync_type: default
@@ -119,11 +119,11 @@ nginx:
         names_hash_bucket_size: 128
     upstreams: {  }
     vhosts:
-        nxv_7uuqr60lk8iu:
+        nxv_bze5uz31c3f7:
             server_name: allytalks.loc
             server_aliases:
                 - wwww.allytalks.loc
-            www_root: /vagrant/www
+            www_root: /vagrant/server/www
             listen_port: '80'
             index_files:
                 - index.html
@@ -139,7 +139,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_iymyecjs3she:
+                nxvl_8dzugh0aawdf:
                     location: /
                     try_files:
                         - $uri
@@ -150,7 +150,7 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                nxvl_9xhi9l5lqv7y:
+                nxvl_zss6414ppzfp:
                     location: '~ \.php$'
                     try_files:
                         - $uri
@@ -166,6 +166,24 @@ nginx:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
                     proxy_redirect: ''
+        nxv_5wujd123t2y0:
+            server_name: allytalks.spa
+            server_aliases:
+                - www.allytalks.spa
+            www_root: /vagrant/frontend-js/www
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.php
+            client_max_body_size: 1m
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_port: '443'
+            ssl_protocols: ''
+            ssl_ciphers: ''
+            rewrite_to_https: '1'
+            spdy: '1'
     proxies: {  }
 apache:
     install: '0'
@@ -181,7 +199,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_w7q8hz5fcqvi:
+        av_simvtkibm6hu:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -200,7 +218,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_yx2eci5skpla:
+                avd_6v0jnin2tkhd:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -212,7 +230,7 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_a25cfedvubjb:
+                        avdfm_q4lxy8gx4ica:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
@@ -241,7 +259,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_v2qsw7gk9aw8:
+        phpfp_1oh2lj7ma50p:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -284,7 +302,7 @@ drush:
 ruby:
     install: '1'
     versions:
-        rv_tzjulwgheop2:
+        rv_xjj41hpz91hx:
             default: '1'
             bundler: '1'
             version: 1.9.3
@@ -325,15 +343,15 @@ mariadb:
         override_options: {  }
     adminer: '1'
     users:
-        mariadbnu_6xxxc6p27zxc:
+        mariadbnu_x8c84p28z7mq:
             name: dbuser
             password: '123'
     databases:
-        mariadbnd_eelsz3kv34u8:
+        mariadbnd_nfjugkj6bl7p:
             name: dbname
             sql: ''
     grants:
-        mariadbng_jun7ile3ich9:
+        mariadbng_evex2x881snw:
             user: dbuser
             table: '*.*'
             privileges:
@@ -346,15 +364,15 @@ mysql:
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_ut4i7t6ylurz:
+        mysqlnu_cnuv6smplw2u:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_tck6yxu3tzmr:
+        mysqlnd_bcutxjww24cd:
             name: dbname
             sql: ''
     grants:
-        mysqlng_cebd7roxjl36:
+        mysqlng_dtnqi1kd6ykj:
             user: dbuser
             table: '*.*'
             privileges:
@@ -419,11 +437,10 @@ elastic_search:
         version: 2.3.1
         java_install: true
     instances:
-        esi_14mqu2ldgov2:
+        esi_v0ie17t9oefx:
             name: es-01
 solr:
     install: '0'
     settings:
         version: 4.10.2
         port: '8984'
-
