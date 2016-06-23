@@ -25,3 +25,9 @@ Both servers will use `7777` port so don't try to run two at once.
 
 For a website using you need to add `192.168.56.101 allytalks.loc` to your hosts file 
 (on windows `C:\Windows\System32\drivers\etc`) and also `192.168.56.101 allytalks.spa` for single-page app.
+
+Shortly about folders:
+`frontend` - c# app
+`frontend-js` - js spa available at `allytalks.spa` , webroot at `frontend-js/www`
+`server` - full php stack
+`server/www` - webroot for `allytalks.loc`
