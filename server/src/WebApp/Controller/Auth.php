@@ -1,4 +1,5 @@
 <?php
+
 namespace AllyTalks\WebApp\Controller;
 
 use AllyTalks\Utils\Exception\JsonException;
@@ -17,9 +18,12 @@ class Auth extends Controller
 
     /**
      * @controller
+     *
      * @method POST
-     * @route /auth
+     * @route /api/auth
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function authenticationController(Request $request)
@@ -28,14 +32,14 @@ class Auth extends Controller
         $password = $request->request->get('password');
 
         $user = $this->model->getUserByLogin($login);
-        
+
         if ($user->verifyPassword($password)) {
             $user->generateNewToken();
             $this->model->initiateFlushing();
 
             return new JsonResponse(['token' => $user->getToken()]);
         } else {
-            throw new JsonException('wrong login or password', 401);
+            throw new JsonException('wrong login or password');
         }
     }
 }

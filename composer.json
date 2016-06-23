@@ -14,7 +14,8 @@
         "doctrine/orm": "^2.5",
         "symfony/yaml": "^3.1",
         "Athari/YaLinqo": "^2.4",
-        "ratchet/pawl": "^0.2.2"
+        "ratchet/pawl": "^0.2.2",
+        "beberlei/assert": "^2.5"
     },
     "require-dev": {
         "symfony/var-dumper": "^3.1",

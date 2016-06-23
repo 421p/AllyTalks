@@ -4,7 +4,6 @@ namespace AllyTalks\WebApp\Controller;
 
 use AllyTalks\WebApp\Application;
 
-
 class Render extends Controller
 {
     private $app;

@@ -24,7 +24,7 @@ class Model
             ->getResult();
     }
 
-    public function addUser(array $data)
+    public function addUser(array $data) : User
     {
         $user = $this->em->createQueryBuilder()
             ->select('user')
@@ -35,12 +35,17 @@ class Model
 
         if (!$user) {
             $user = new User($data['login'], $data['password'], $data['nickname'], $data['email']);
-            $user->setToken('for test'); //should be replaced
+            $user->generateNewToken();
             $this->em->persist($user);
             $this->em->flush();
-        } else
-            throw new SpookyException('<h3>User with such login already exists!</h3> 
-            <a href="/register">Return to Registration</a>');
+
+            return $user;
+        } else {
+            throw new SpookyException(
+                '<h3>User with such login already exists!</h3> 
+            <a href="/register">Return to Registration</a>'
+            );
+        }
     }
 
     public function deleteUser(User $user)
@@ -58,7 +63,7 @@ class Model
             ->setParameter('log', $login)
             ->getQuery()->getOneOrNullResult();
 
-        if($user) {
+        if ($user) {
             return $user;
         } else {
             throw new \RuntimeException('No user found with current login.');
@@ -74,7 +79,7 @@ class Model
             ->setParameter('tok', $token)
             ->getQuery()->getOneOrNullResult();
 
-        if($user) {
+        if ($user) {
             return $user;
         } else {
             throw new \RuntimeException('No user found with current token.');
@@ -85,7 +90,7 @@ class Model
     {
         $this->em->flush();
     }
-    
+
     public function getEm()
     {
         return $this->em;
