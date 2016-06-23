@@ -59,9 +59,9 @@ class Registration extends Controller
     {
         $data = $request->request->all();
 
-        Assertion::allKeyExists(
+        Assertion::allInArray(
             ['login', 'password', 'nickname', 'email'],
-            $data,
+            array_keys($data),
             'Not all required fields set.'
         );
 
