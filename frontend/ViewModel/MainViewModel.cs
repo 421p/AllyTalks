@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace AllyTalksClient.ViewModel
@@ -11,13 +12,14 @@ namespace AllyTalksClient.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ClientServerMessenger _messenger;
-
+        
         public RelayCommand SendMessageCommand { get; set; }
         public RelayCommand ConnectWsCommand { get; set; }
+        public RelayCommand<object> SignInCommand { get; set; }
+        public RelayCommand SignOutCommand { get; set; }
 
         //should be realized for sending private messages
         private User _currentReceiver;
-
         public User CurrentReceiver
         {
             get
@@ -34,7 +36,6 @@ namespace AllyTalksClient.ViewModel
         }
 
         private Message _currentMessage;
-
         public Message CurrentMessage
         {
             get
@@ -49,6 +50,23 @@ namespace AllyTalksClient.ViewModel
                 RaisePropertyChanged("CurrentMessage");
             }
         }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get
+            {
+                if (_currentUser == null)
+                    _currentUser = new User();
+                return _currentUser;
+            }
+            set
+            {
+                _currentUser = value;
+                RaisePropertyChanged("CurrentUser");
+            }
+        }
+
 
         ObservableCollection<Message> _messages;
         public ObservableCollection<Message> Messages
@@ -77,7 +95,6 @@ namespace AllyTalksClient.ViewModel
         }
 
          private bool _isNewItemInContainer;
-
          public bool IsNewItemInContainer
          {
             get
@@ -97,6 +114,8 @@ namespace AllyTalksClient.ViewModel
 
             SendMessageCommand = new RelayCommand(SendMessage);
             ConnectWsCommand = new RelayCommand(ConnectWs);
+            SignInCommand = new RelayCommand<object>(SignIn);
+            SignOutCommand = new RelayCommand(SignOut);
            
             CurrentReceiver = JustForTestRepository.AllFriends[0]; //for testing
         }
@@ -112,6 +131,35 @@ namespace AllyTalksClient.ViewModel
         private void ConnectWs()
         {
             _messenger.Connect();
+        }
+
+        private void SignIn(object parameter)
+        {
+            //if authUser() == true 
+            SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
+            RestartApp();
+          
+        }
+
+        private void SignOut()
+        {
+            SetConfigData();
+            RestartApp();
+        }
+
+        private void SetConfigData(string login="", string password="")
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["login"].Value = login;
+            config.AppSettings.Settings["password"].Value = password;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private void RestartApp()
+        {
+            System.Windows.Forms.Application.Restart();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

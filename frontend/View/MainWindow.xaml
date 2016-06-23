@@ -66,8 +66,8 @@
                 <Image  Height="20"></Image>
             </Button>
             <Separator/>
-            <Button x:Name="btnExit">
-                <Image  Height="20"></Image>
+            <Button x:Name="btnExit" Content="Sign Out" Command="{Binding SignOutCommand}">
+                
             </Button>
             <Separator/>
         </ToolBar>
