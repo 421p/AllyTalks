@@ -3,21 +3,23 @@ using System.Windows;
 using System.Windows.Threading;
 using WebSocketSharp;
 
-namespace AllyTalksClient {
+namespace AllyTalksClient.View {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        private readonly WebSocket _ws;
+        //private readonly WebSocket _ws;
 
         public MainWindow()
         {
+            
             InitializeComponent();
-            _ws = new WebSocket("ws://127.0.0.1:7777");
+            
+          //_ws = new WebSocket("ws://127.0.0.1:7777");
 
-            _ws.OnMessage += (sender, e) => DispatchIt(() => listBox.Items.Add(e.Data));
+           // _ws.OnMessage += (sender, e) => DispatchIt(() => listBox.Items.Add(e.Data));
         }
-
+        /*
         private void DispatchIt(Action action)
         {
             Application.Current.Dispatcher.BeginInvoke(
@@ -26,12 +28,14 @@ namespace AllyTalksClient {
 
         private void Button_OnClick(object sender, RoutedEventArgs e)
         {
-            _ws.Send($"{nameTextBox.Text}: {textBox.Text}");
+           // _ws.Send(string.Format("{0}: {1}", nameTextBox.Text, textBox.Text));
         }
 
+        
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            _ws.Connect();
+          // _ws.Connect();
         }
+         * */
     }
 }
