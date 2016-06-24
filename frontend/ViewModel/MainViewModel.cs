@@ -4,6 +4,8 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
@@ -124,7 +126,7 @@ namespace AllyTalksClient.ViewModel
         {
             _messenger.Write(CurrentMessage);
 
-            IsNewItemInContainer = true;
+            IsNewItemInContainer = !IsNewItemInContainer;
             CurrentMessage = null;
         }
 
@@ -135,10 +137,8 @@ namespace AllyTalksClient.ViewModel
 
         private void SignIn(object parameter)
         {
-            //if authUser() == true 
             SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
             RestartApp();
-          
         }
 
         private void SignOut()
@@ -158,8 +158,8 @@ namespace AllyTalksClient.ViewModel
 
         private void RestartApp()
         {
-            System.Windows.Forms.Application.Restart();
-            System.Windows.Application.Current.Shutdown();
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
     }
 }
