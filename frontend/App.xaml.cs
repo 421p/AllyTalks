@@ -12,5 +12,16 @@ namespace AllyTalksClient
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (ConfigurationManager.AppSettings["login"] == string.Empty && ConfigurationManager.AppSettings["password"] == string.Empty)
+            {
+                StartupUri = new Uri("View/StartPage.xaml", UriKind.Relative);
+            }
+            else 
+            {
+                StartupUri = new Uri("View/MainWindow.xaml", UriKind.Relative);
+            }
+        }
     }
 }

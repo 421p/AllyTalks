@@ -27,7 +27,7 @@ namespace AllyTalksClient.ViewModel
         {
             var scrollViewer = d as ScrollViewer;
 
-            if (scrollViewer != null && (bool)e.NewValue)
+            if (scrollViewer != null )
             {
                 scrollViewer.ScrollToBottom();
             }
