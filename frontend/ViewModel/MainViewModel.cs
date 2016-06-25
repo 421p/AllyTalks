@@ -14,6 +14,7 @@ namespace AllyTalksClient.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ClientServerMessenger _messenger;
+        private string _token;
         
         public RelayCommand SendMessageCommand { get; set; }
         public RelayCommand ConnectWsCommand { get; set; }
@@ -43,7 +44,7 @@ namespace AllyTalksClient.ViewModel
             get
             {
                 if (_currentMessage == null)
-                    _currentMessage = new Message(CurrentReceiver, "message"); 
+                    _currentMessage = new Message(CurrentReceiver.Login, "message", _token); 
                 return _currentMessage;
             }
             set
@@ -137,8 +138,17 @@ namespace AllyTalksClient.ViewModel
 
         private void SignIn(object parameter)
         {
-            SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
-            RestartApp();
+            string login = CurrentUser.Login;
+            string password = (parameter as PasswordBox).Password;
+            _token = _messenger.GetAuthToken(login, password);
+            
+            if (_token != string.Empty)
+            {
+                SetConfigData(login, password);
+                RestartApp();
+                _messenger.Write(new Message("service", "auth", _token));
+            }
+            
         }
 
         private void SignOut()

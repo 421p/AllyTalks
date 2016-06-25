@@ -9,20 +9,22 @@ namespace AllyTalksClient.Model
 {
     public class Message
     {
-        public User Sender { get; set; }
-        public User Receiver { get; set; }
+        public string Sender { get; set; }
+        public string Receiver { get; set; }
         public string Type { get; set; }
         public string Text { get; set; }
         public string Time { get; set; }
+        public string Token { get; set; }
 
         public Message() { }
 
-        public Message(User receiver, string type)
+        public Message(string receiver, string type, string token)
         {
-            Sender = JustForTestRepository.CurrentUser;
+            //Sender = JustForTestRepository.CurrentUser.Login;
             Receiver = receiver;
             Type = type;
-            Time = DateTime.Now.ToShortTimeString();
+            //Time = DateTime.Now.ToShortTimeString();
+            Token = token;
         }
     }
 }
