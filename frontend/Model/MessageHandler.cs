@@ -12,7 +12,7 @@ namespace AllyTalksClient.Model
     {
         public static string SerializeMessage(Message message)
         {
-            return JsonConvert.SerializeObject(message).ToLower();
+            return JsonConvert.SerializeObject(message);
         }
 
         public static Message DeserializeMessage(string data)

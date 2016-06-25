@@ -31,7 +31,6 @@ namespace AllyTalksClient.Model
 
         private void Configure() 
         {
-           
             _websocket.OnMessage += (sender, e) =>
             {
                 DispatchIt(() => JustForTestRepository.AllMessages.Add(MessageHandler.DeserializeMessage(e.Data)));
