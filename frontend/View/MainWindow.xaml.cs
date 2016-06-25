@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
-using WebSocketSharp;
+﻿using System.Windows;
 
 namespace AllyTalksClient.View {
     /// <summary>
@@ -12,13 +9,13 @@ namespace AllyTalksClient.View {
 
         public MainWindow()
         {
-            
             InitializeComponent();
-            
-          //_ws = new WebSocket("ws://127.0.0.1:7777");
 
-           // _ws.OnMessage += (sender, e) => DispatchIt(() => listBox.Items.Add(e.Data));
+            //_ws = new WebSocket("ws://127.0.0.1:7777");
+
+            // _ws.OnMessage += (sender, e) => DispatchIt(() => listBox.Items.Add(e.Data));
         }
+
         /*
         private void DispatchIt(Action action)
         {
