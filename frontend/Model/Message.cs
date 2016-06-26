@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 namespace AllyTalksClient.Model {
     public class Message {
         public Message()
@@ -10,7 +11,7 @@ namespace AllyTalksClient.Model {
             //Sender = JustForTestRepository.CurrentUser.Login;
             Receiver = receiver;
             Type = type;
-            //Time = DateTime.Now.ToShortTimeString();
+            Time = DateTime.Now.ToShortTimeString();
             Token = token;
         }
 

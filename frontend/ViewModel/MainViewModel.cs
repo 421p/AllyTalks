@@ -11,20 +11,14 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace AllyTalksClient.ViewModel {
     public class MainViewModel : ViewModelBase {
-        private Message _currentMessage;
-
-        //should be realized for sending private messages
-        private User _currentReceiver;
-
-        private User _currentUser;
-
-        private bool _isNewItemInContainer;
-
-
-        private ObservableCollection<Message> _messages;
         private readonly ClientServerMessenger _messenger;
         private string _token;
-
+        private string _info;
+        private Message _currentMessage;
+        private User _currentReceiver;
+        private User _currentUser;
+        private bool _isNewItemInContainer;
+        private ObservableCollection<Message> _messages;
         private ObservableCollection<User> _users;
 
         public MainViewModel()
@@ -33,15 +27,14 @@ namespace AllyTalksClient.ViewModel {
                 new ClientServerMessenger(ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString);
 
             SendMessageCommand = new RelayCommand(SendMessage);
-            ConnectWsCommand = new RelayCommand(ConnectWs);
+            StartPageLoadedCommand = new RelayCommand(StartPageLoaded);
             SignInCommand = new RelayCommand<object>(SignIn);
             SignOutCommand = new RelayCommand(SignOut);
-
             CurrentReceiver = JustForTestRepository.AllFriends[0]; //for testing
         }
 
         public RelayCommand SendMessageCommand { get; set; }
-        public RelayCommand ConnectWsCommand { get; set; }
+        public RelayCommand StartPageLoadedCommand { get; set; }
         public RelayCommand<object> SignInCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
 
@@ -85,6 +78,16 @@ namespace AllyTalksClient.ViewModel {
             }
         }
 
+        public string Info
+        {
+            get { return _info; }
+            set
+            {
+                _info = value;
+                RaisePropertyChanged("Info");
+            }
+        }
+
         private void SendMessage()
         {
             _messenger.Write(CurrentMessage);
@@ -93,34 +96,23 @@ namespace AllyTalksClient.ViewModel {
             CurrentMessage = null;
         }
 
-        private void ConnectWs()
+        private void StartPageLoaded()
         {
-            if (!_messenger.IsConnected()) {
-                Console.WriteLine("!");
-                var login = ConfigurationManager.AppSettings["login"];
-                var password = ConfigurationManager.AppSettings["password"];
-                _messenger.Connect();
-                _token = _messenger.GetAuthToken(login, password);
-                _messenger.Write(new Message("service", "auth", _token));
-            }  
+            if (ConfigurationManager.AppSettings["login"] != string.Empty &&
+                ConfigurationManager.AppSettings["password"] != string.Empty) {
+                AuthUser(ConfigurationManager.AppSettings["login"], ConfigurationManager.AppSettings["password"]);
+            }
         }
 
         private void SignIn(object parameter)
         {
-            var login = CurrentUser.Login;
-            var password = (parameter as PasswordBox).Password;
-            _token = _messenger.GetAuthToken(login, password);
-
-            if (_token != string.Empty)
-            {
-                SetConfigData(login, password);
-                _messenger.Connect();
-                Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
-                _messenger.Write(new Message("service", "auth", _token));
+            try {
+                if (AuthUser(CurrentUser.Login, (parameter as PasswordBox).Password)) {
+                    SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
+                }
             }
-            else {
-                CurrentUser.Login = null;
-                (parameter as PasswordBox).Password = null;
+            catch (Exception ex) {
+                Info = ex.Message;
             }
         }
 
@@ -143,6 +135,21 @@ namespace AllyTalksClient.ViewModel {
         {
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
+        }
+
+        
+        private bool AuthUser(string login, string password)
+        {
+            _token = _messenger.GetAuthToken(login, password);
+         
+            if (_token != string.Empty) {
+                _messenger.Connect();
+                _messenger.Write(new Message("service", "auth", _token));
+                Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
+                return true;
+            }
+           
+           throw new Exception("Authorization failed! Please check your login and password, then try again!");
         }
     }
 }
