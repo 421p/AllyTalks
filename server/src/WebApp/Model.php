@@ -86,6 +86,11 @@ class Model
         }
     }
 
+    public function refreshUser(User $user)
+    {
+        $this->em->refresh($user);
+    }
+
     public function initiateFlushing()
     {
         $this->em->flush();

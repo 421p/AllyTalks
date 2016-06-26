@@ -33,7 +33,8 @@ class CommServer implements MessageComponentInterface
         if (array_key_exists($conn->resourceId, $this->randomConnections)) {
             unset($this->randomConnections[$conn->resourceId]);
         }
-        
+
+        /** @var Client $client */
         $client = Enumerable::from($this->clients)->where(function(Client $x) use ($conn) {
             return $x->getResourceId() === $conn->resourceId;
         })->firstOrDefault();
@@ -41,7 +42,6 @@ class CommServer implements MessageComponentInterface
         if ($client) {
             unset($this->clients[array_search($client, $this->clients)]);
         }
-
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)

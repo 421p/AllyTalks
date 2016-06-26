@@ -23,7 +23,9 @@ class Router
                 $token = $message['token'];
                 $user = $this->server->getModel()->getUserByToken($token);
 
-                if ($user->getToken() == $token) {
+                $this->server->getModel()->refreshUser($user);
+
+                if ($user->getToken() === $token) {
                     $this->server->addClient(new Client($sender, $user));
                     $sender->send(json_encode([
                         'sender' => 'service',
@@ -54,6 +56,8 @@ class Router
                         return $c->getResourceId() === $sender->resourceId;
                     }
                 )->firstOrDefault();
+
+                $this->server->getModel()->refreshUser($from->getUser());
 
                 if (!$from) {
                     throw new \RuntimeException('Wrong client.');
