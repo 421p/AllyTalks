@@ -11,7 +11,7 @@ namespace AllyTalksClient.Model {
         public static Message DeserializeMessage(string data)
         {
             var json = JObject.Parse(data);
-            var type = (string) json["Type"];
+            var type = (string) json["type"];
             var message = new Message();
 
             if (type == "message") {

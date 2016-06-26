@@ -4,6 +4,7 @@
         Title="AllyTalks" Height="300" Width="320" WindowStyle="ToolWindow"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         WindowStartupLocation="CenterScreen">
+   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*" />

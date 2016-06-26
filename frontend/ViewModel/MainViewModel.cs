@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using AllyTalksClient.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace AllyTalksClient.ViewModel {
     public class MainViewModel : ViewModelBase {
@@ -68,9 +69,13 @@ namespace AllyTalksClient.ViewModel {
             }
         }
 
-        public ObservableCollection<Message> Messages => _messages ?? (_messages = JustForTestRepository.AllMessages);
+        public ObservableCollection<Message> Messages { 
+            get { return _messages ?? (_messages = JustForTestRepository.AllMessages); }
+        }
 
-        public ObservableCollection<User> Users => _users ?? (_users = JustForTestRepository.AllFriends);
+        public ObservableCollection<User> Users {
+            get { return _users ?? (_users = JustForTestRepository.AllFriends); }
+        }
 
         public bool IsNewItemInContainer {
             get { return _isNewItemInContainer; }
@@ -90,7 +95,13 @@ namespace AllyTalksClient.ViewModel {
 
         private void ConnectWs()
         {
-            _messenger.Connect();
+            if (!_messenger.IsConnected()) { 
+                var login = ConfigurationManager.AppSettings["login"];
+                var password = ConfigurationManager.AppSettings["password"];
+                _messenger.Connect();
+                _token = _messenger.GetAuthToken(login, password);
+                _messenger.Write(new Message("service", "auth", _token));
+            }  
         }
 
         private void SignIn(object parameter)
@@ -99,11 +110,10 @@ namespace AllyTalksClient.ViewModel {
             var password = (parameter as PasswordBox).Password;
             _token = _messenger.GetAuthToken(login, password);
 
-            Console.WriteLine(_token);
-
             if (_token != string.Empty) {
                 SetConfigData(login, password);
-                RestartApp();
+                _messenger.Connect();
+                Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
                 _messenger.Write(new Message("service", "auth", _token));
             }
         }

@@ -18,7 +18,7 @@ namespace AllyTalksClient.Model {
         public ClientServerMessenger(string url)
         {
             _websocket = new WebSocket(url);
-
+       
             Configure();
         }
 
@@ -68,6 +68,11 @@ namespace AllyTalksClient.Model {
             }
 
             return token;
+        }
+
+        public bool IsConnected()
+        {
+            return _websocket.IsAlive;
         }
     }
 }

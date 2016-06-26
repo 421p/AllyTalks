@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
 
 namespace AllyTalksClient.View {
     /// <summary>
@@ -8,6 +9,17 @@ namespace AllyTalksClient.View {
         public StartPage()
         {
             InitializeComponent();
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+        }
+
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "ShowMainWindow")
+            {
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
         }
     }
 }
