@@ -88,9 +88,9 @@
             <ScrollViewer local:AutoScrollHelper.AutoScroll="{Binding IsNewItemInContainer}" Grid.Column="1"
                           Grid.ColumnSpan="2">
 
-                <ListBox x:Name="lstMessages" Grid.RowSpan="3" ItemsSource="{Binding Messages}"
+                <ItemsControl x:Name="lstMessages" Grid.RowSpan="3" ItemsSource="{Binding Messages}"
                          VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         Background="Transparent" BorderBrush="Transparent" />
+                         Background="Transparent" BorderBrush="Transparent"/>
 
             </ScrollViewer>
             <TextBox x:Name="txtMessage" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="False"

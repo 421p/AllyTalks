@@ -7,6 +7,7 @@ use AllyTalks\WebsocketCommunicationServer\Client\Client;
 use AllyTalks\WebsocketCommunicationServer\Router\Router;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use YaLinqo\Enumerable;
 
 class CommServer implements MessageComponentInterface
 {
@@ -29,9 +30,18 @@ class CommServer implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-        if (array_key_exists($conn->resourceId, $this->clients)) {
+        if (array_key_exists($conn->resourceId, $this->randomConnections)) {
             unset($this->randomConnections[$conn->resourceId]);
         }
+        
+        $client = Enumerable::from($this->clients)->where(function(Client $x) use ($conn) {
+            return $x->getResourceId() === $conn->resourceId;
+        })->firstOrDefault();
+
+        if ($client) {
+            unset($this->clients[array_search($client, $this->clients)]);
+        }
+
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)

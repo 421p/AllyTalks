@@ -17,6 +17,14 @@ namespace AllyTalksClient.Model {
             if (type == "message") {
                 message = JsonConvert.DeserializeObject<Message>(data);
             }
+            if (type == "error")
+            {
+                message = JsonConvert.DeserializeObject<Message>(data);
+            }
+            if (type == "auth")
+            {
+                message = JsonConvert.DeserializeObject<Message>(data);
+            }
 
             return message;
         }

@@ -31,7 +31,7 @@ class Router
                         'message' => 'success',
                     ]));
                 } else {
-                    throw new \RuntimeException('Incorrect token.');
+                    throw new \RuntimeException('Incorrect!!! token.' . $user->getToken() . ' and ' . $token);
                 }
 
                 break;
@@ -60,7 +60,7 @@ class Router
                 }
 
                 if ($from->getUser()->getToken() !== $token) {
-                    throw new \RuntimeException('Incorrect token.');
+                    throw new \RuntimeException('Incorrect token $token');
                 }
 
                 /** @var Client $to */

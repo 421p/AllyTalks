@@ -95,7 +95,8 @@ namespace AllyTalksClient.ViewModel {
 
         private void ConnectWs()
         {
-            if (!_messenger.IsConnected()) { 
+            if (!_messenger.IsConnected()) {
+                Console.WriteLine("!");
                 var login = ConfigurationManager.AppSettings["login"];
                 var password = ConfigurationManager.AppSettings["password"];
                 _messenger.Connect();
@@ -110,11 +111,16 @@ namespace AllyTalksClient.ViewModel {
             var password = (parameter as PasswordBox).Password;
             _token = _messenger.GetAuthToken(login, password);
 
-            if (_token != string.Empty) {
+            if (_token != string.Empty)
+            {
                 SetConfigData(login, password);
                 _messenger.Connect();
                 Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
                 _messenger.Write(new Message("service", "auth", _token));
+            }
+            else {
+                CurrentUser.Login = null;
+                (parameter as PasswordBox).Password = null;
             }
         }
 
