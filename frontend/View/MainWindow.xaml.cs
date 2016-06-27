@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using AllyTalksClient.Model;
+using GalaSoft.MvvmLight.Messaging;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace AllyTalksClient.View {
@@ -10,19 +13,14 @@ namespace AllyTalksClient.View {
         public MainWindow()
         {
             InitializeComponent();
-            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-            //lstFriends.SelectedIndex = 0;
+
+            Messenger.Default.Register<ObservableCollection<Message>>(this, ReceiveMessage);
         }
 
-        private void NotificationMessageReceived(NotificationMessage msg)
+        private void ReceiveMessage(ObservableCollection<Message> obj)
         {
-            if (msg.Notification == "CleanMessagesArea")
-            {
-                System.Console.WriteLine("!!");
-                lstMessages.Items.Clear();
-            }
+            lstMessages.ItemsSource = obj;
         }
-
         
     }
 }

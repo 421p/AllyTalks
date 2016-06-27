@@ -69,8 +69,12 @@ namespace AllyTalksClient.ViewModel {
         }
 
         public ObservableCollection<Message> Messages {
-            get { return _messages ?? (_messages = JustForTestRepository.AllMessages); }
-           
+            get {
+                return _messages = JustForTestRepository.AllMessages;
+            }
+            set {
+                _messages= value;
+            }
         }
 
         public ObservableCollection<User> Users {
@@ -99,7 +103,7 @@ namespace AllyTalksClient.ViewModel {
         {
             CurrentMessage.Receiver = CurrentReceiver.Login;
             _messenger.Write(CurrentMessage);
-            JustForTestRepository.AllMessages.Add(CurrentMessage);
+            Messages.Add(CurrentMessage);
 
             IsNewItemInContainer = !IsNewItemInContainer;
             CurrentMessage = null;
@@ -168,8 +172,8 @@ namespace AllyTalksClient.ViewModel {
 
         private void SetChatRoom()
         {
-            //Messenger.Default.Send(new NotificationMessage("CleanMessagesArea"));
-           
+           JustForTestRepository.SetMessages(CurrentReceiver.Login);
+           Messenger.Default.Send(Messages);
         }
     }
 }

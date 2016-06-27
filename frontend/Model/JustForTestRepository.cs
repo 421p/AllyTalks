@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace AllyTalksClient.Model {
@@ -9,6 +10,7 @@ namespace AllyTalksClient.Model {
 
         private static ObservableCollection<Message> _allMessages;
 
+        private static Dictionary<string, ObservableCollection<Message>> _dataInDB;
 
         public static ObservableCollection<User> AllFriends {
             get {
@@ -21,9 +23,22 @@ namespace AllyTalksClient.Model {
         public static ObservableCollection<Message> AllMessages
         {
             get {
-                if (_allMessages == null)
+                if (_allMessages==null)
                     _allMessages = new ObservableCollection<Message>();
                 return _allMessages;
+            }
+            set {
+                _allMessages = value;
+            }
+        }
+
+        public static Dictionary<string, ObservableCollection<Message>> DataInDB
+        {
+            get
+            {
+                if (_dataInDB == null)
+                    _dataInDB = GetData();
+                return _dataInDB;
             }
         }
 
@@ -37,16 +52,20 @@ namespace AllyTalksClient.Model {
             return tmp;
         }
 
-        private static Dictionary<string, ObservableCollection<Message>> CreateChatRooms()
+        public static void SetMessages(string login)
         {
-            var tmp = new Dictionary<string, ObservableCollection<Message>>();
+            AllMessages = DataInDB[login];
+        }
 
-            foreach (var friend in AllFriends)
-            {
-                tmp.Add(friend.Login, new ObservableCollection<Message>());
-            }
+        private static Dictionary<string, ObservableCollection<Message>> GetData()
+        {
+            var data = new Dictionary<string, ObservableCollection<Message>>();
 
-            return tmp;
+
+            data.Add("klepach", new ObservableCollection<Message>(){new Message() { Text = "Prepod", Receiver = "sher", Type = "message" }});
+            data.Add("alina", new ObservableCollection<Message>() { new Message() { Text = "Alya", Receiver = "sher", Type = "message" } });
+            data.Add("sher", new ObservableCollection<Message>() { new Message() { Text = "Durak", Receiver = "sher", Type = "message" } });
+            return data;
         }
     }
 }
