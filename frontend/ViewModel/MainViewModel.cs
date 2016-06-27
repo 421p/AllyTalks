@@ -21,18 +21,24 @@ namespace AllyTalksClient.ViewModel {
         private bool _isNewItemInContainer;
         private ObservableCollection<Message> _messages;
         private ObservableCollection<User> _users;
+        private readonly FixtureRepository _repo;
 
         public MainViewModel()
         {
-            _messenger =
-                new ClientServerMessenger(ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString);
+
+            _repo = new FixtureRepository();
+
+            _messenger = new ClientServerMessenger(
+                ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString,
+                _repo
+            );
 
             SendMessageCommand = new RelayCommand(SendMessage);
             StartPageLoadedCommand = new RelayCommand(StartPageLoaded);
             SignInCommand = new RelayCommand<object>(SignIn);
             SignOutCommand = new RelayCommand(SignOut);
             ExitCommand = new RelayCommand(Exit);
-            CurrentReceiver = FixtureRepository.AllFriends[0];
+            CurrentReceiver = _repo.Contacts[0];
         }
 
         public RelayCommand SendMessageCommand { get; set; }
@@ -74,14 +80,14 @@ namespace AllyTalksClient.ViewModel {
 
         public ObservableCollection<Message> Messages {
             get {
-                return _messages = FixtureRepository.AllMessages;
+                return _messages = _repo.Messages;
             }
             set {
                 _messages= value;
             }
         }
 
-        public ObservableCollection<User> Users => _users ?? (_users = FixtureRepository.AllFriends);
+        public ObservableCollection<User> Users => _users ?? (_users = _repo.Contacts);
 
         public bool IsNewItemInContainer {
             get { return _isNewItemInContainer; }
@@ -175,7 +181,7 @@ namespace AllyTalksClient.ViewModel {
 
         private void SetChatRoom()
         {
-           FixtureRepository.SetMessages(CurrentReceiver.Login);
+           _repo.SetMessages(CurrentReceiver.Login);
            Messenger.Default.Send(Messages);
         }
     }

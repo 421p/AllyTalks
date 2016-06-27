@@ -11,15 +11,17 @@ using WebSocketSharp;
 namespace AllyTalksClient.Model {
     public class ClientServerMessenger {
         private readonly WebSocket _websocket;
+        private readonly FixtureRepository _repo;
 
-        public ClientServerMessenger()
+        public ClientServerMessenger(FixtureRepository repo)
         {
+            _repo = repo;
         }
 
-        public ClientServerMessenger(string url)
+        public ClientServerMessenger(string url, FixtureRepository repo)
         {
             _websocket = new WebSocket(url);
-
+            _repo = repo;
             Configure();
         }
 
@@ -27,7 +29,7 @@ namespace AllyTalksClient.Model {
         {
             _websocket.OnMessage +=
                 (sender, e) => {
-                    DispatchIt(() => FixtureRepository.AllMessages.Add(MessageSerializer.DeserializeMessage(e.Data)));
+                    DispatchIt(() => _repo.Messages.Add(MessageSerializer.DeserializeMessage(e.Data)));
                 };
         }
 
