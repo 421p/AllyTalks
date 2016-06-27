@@ -166,26 +166,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\home.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\contacts.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\exit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\clip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\smile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\send.png" />
+    <Resource Include="Images\sign-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

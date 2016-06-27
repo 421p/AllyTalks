@@ -30,24 +30,30 @@ namespace AllyTalksClient.ViewModel {
             StartPageLoadedCommand = new RelayCommand(StartPageLoaded);
             SignInCommand = new RelayCommand<object>(SignIn);
             SignOutCommand = new RelayCommand(SignOut);
-            CurrentReceiver = JustForTestRepository.AllFriends[0]; //for testing
+            ExitCommand = new RelayCommand(Exit);
+            CurrentReceiver = JustForTestRepository.AllFriends[0];
         }
 
         public RelayCommand SendMessageCommand { get; set; }
         public RelayCommand StartPageLoadedCommand { get; set; }
         public RelayCommand<object> SignInCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
+        public RelayCommand ExitCommand { get; set; }
+      
 
         public User CurrentReceiver {
-            get { return _currentReceiver ?? (_currentReceiver = new User()); }
+            get { return _currentReceiver; }
             set {
-                _currentReceiver = value;
+                if (_currentReceiver != value){
+                    _currentReceiver = value;
+                    SetChatRoom();
+                }
                 RaisePropertyChanged("CurrentReceiver");
             }
         }
 
         public Message CurrentMessage {
-            get { return _currentMessage ?? (_currentMessage = new Message(CurrentReceiver.Login, "message", _token)); }
+            get {  return _currentMessage ?? (_currentMessage = new Message("message", _token)); }
             set {
                 _currentMessage = value;
                 RaisePropertyChanged("CurrentMessage");
@@ -62,8 +68,9 @@ namespace AllyTalksClient.ViewModel {
             }
         }
 
-        public ObservableCollection<Message> Messages { 
+        public ObservableCollection<Message> Messages {
             get { return _messages ?? (_messages = JustForTestRepository.AllMessages); }
+           
         }
 
         public ObservableCollection<User> Users {
@@ -90,7 +97,9 @@ namespace AllyTalksClient.ViewModel {
 
         private void SendMessage()
         {
+            CurrentMessage.Receiver = CurrentReceiver.Login;
             _messenger.Write(CurrentMessage);
+            JustForTestRepository.AllMessages.Add(CurrentMessage);
 
             IsNewItemInContainer = !IsNewItemInContainer;
             CurrentMessage = null;
@@ -108,7 +117,7 @@ namespace AllyTalksClient.ViewModel {
         {
             try {
                 if (AuthUser(CurrentUser.Login, (parameter as PasswordBox).Password)) {
-                    SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
+                    //SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
                 }
             }
             catch (Exception ex) {
@@ -120,6 +129,11 @@ namespace AllyTalksClient.ViewModel {
         {
             SetConfigData();
             RestartApp();
+        }
+
+        private void Exit()
+        {
+            Application.Current.Shutdown();
         }
 
         private void SetConfigData(string login = "", string password = "")
@@ -144,12 +158,18 @@ namespace AllyTalksClient.ViewModel {
          
             if (_token != string.Empty) {
                 _messenger.Connect();
-                _messenger.Write(new Message("service", "auth", _token));
+                _messenger.Write(new Message("auth", _token, "service"));
                 Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
                 return true;
             }
            
            throw new Exception("Authorization failed! Please check your login and password, then try again!");
+        }
+
+        private void SetChatRoom()
+        {
+            //Messenger.Default.Send(new NotificationMessage("CleanMessagesArea"));
+           
         }
     }
 }

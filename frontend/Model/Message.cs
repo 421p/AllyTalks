@@ -6,7 +6,7 @@ namespace AllyTalksClient.Model {
         {
         }
 
-        public Message(string receiver, string type, string token)
+        public Message(string type, string token, string receiver=null)
         {
             //Sender = JustForTestRepository.CurrentUser.Login;
             Receiver = receiver;

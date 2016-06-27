@@ -1,38 +1,28 @@
-﻿using System.Windows;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
 
 namespace AllyTalksClient.View {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        //private readonly WebSocket _ws;
-
+       
         public MainWindow()
         {
             InitializeComponent();
-
-            //_ws = new WebSocket("ws://127.0.0.1:7777");
-
-            // _ws.OnMessage += (sender, e) => DispatchIt(() => listBox.Items.Add(e.Data));
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+            //lstFriends.SelectedIndex = 0;
         }
 
-        /*
-        private void DispatchIt(Action action)
+        private void NotificationMessageReceived(NotificationMessage msg)
         {
-            Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Background, action);
-        }
-
-        private void Button_OnClick(object sender, RoutedEventArgs e)
-        {
-           // _ws.Send(string.Format("{0}: {1}", nameTextBox.Text, textBox.Text));
+            if (msg.Notification == "CleanMessagesArea")
+            {
+                System.Console.WriteLine("!!");
+                lstMessages.Items.Clear();
+            }
         }
 
         
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-          // _ws.Connect();
-        }
-         * */
     }
 }

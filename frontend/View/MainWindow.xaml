@@ -35,32 +35,17 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-
-   
-
     <DockPanel>
-        <Menu x:Name="mainMenu" DockPanel.Dock="Top" HorizontalAlignment="Left" BorderBrush="Black">
+        <Menu x:Name="mainMenu" DockPanel.Dock="Top" HorizontalAlignment="Left" BorderBrush="Black" Background="AliceBlue">
             <MenuItem Header="AllyTalks">
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="Contacts" />
-            <MenuItem Header="Conversation" />
-            <MenuItem Header="Call" />
-            <MenuItem Header="View" />
-            <MenuItem Header="Tools" />
-            <MenuItem Header="Help" />
         </Menu>
         <ToolBar x:Name="mainToolBar" DockPanel.Dock="Top">
-            <Button x:Name="btnHome">
-                <Image Height="20" />
+            <Button x:Name="btnExit" Command="{Binding SignOutCommand}" Content="Sign Out">
+              
             </Button>
-            <Separator />
-            <Button x:Name="btnSearch">
-                <Image Height="20" />
-            </Button>
-            <Separator />
-            <Button x:Name="btnExit" Content="Sign Out" Command="{Binding SignOutCommand}" />
             <Separator />
         </ToolBar>
         <Grid DockPanel.Dock="Left">
@@ -75,10 +60,12 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="0" Width="5" VerticalAlignment="Stretch" Grid.RowSpan="2" />
             <ScrollViewer Grid.Column="0" Grid.RowSpan="2">
-                <StackPanel>
+                <StackPanel Height="254">
                     <ListBox x:Name="lstFriends" ItemsSource="{Binding Users}"
                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             Background="Transparent" BorderBrush="Transparent" />
+                             Background="Transparent" BorderBrush="Transparent" 
+                             SelectedItem="{Binding CurrentReceiver, Mode=TwoWay}"
+                             />
                 </StackPanel>
             </ScrollViewer>
             <ScrollViewer local:AutoScrollHelper.AutoScroll="{Binding IsNewItemInContainer}" Grid.Column="1"
@@ -93,17 +80,6 @@
                      FontSize="14"
                      Text="{Binding Path=CurrentMessage.Text, UpdateSourceTrigger=PropertyChanged}" />
             <Grid Grid.Column="2" Grid.Row="1" Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="16*" />
-                    <RowDefinition Height="16*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40*" />
-                    <ColumnDefinition Width="67*" />
-                </Grid.ColumnDefinitions>
-                <Button x:Name="btnSmile" Grid.Row="0" Grid.Column="0">
-                    <Image />
-                </Button>
                 <Button x:Name="btnSendMessage" Grid.RowSpan="2" Grid.Column="1" Command="{Binding SendMessageCommand}"
                         IsDefault="True" Content="Send">
                     <Button.Style>
@@ -119,9 +95,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btnClipFile" Grid.Row="1" Grid.Column="0">
-                    <Image />
-                </Button>
+            
             </Grid>
         </Grid>
     </DockPanel>

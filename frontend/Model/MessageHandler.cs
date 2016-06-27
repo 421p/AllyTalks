@@ -14,18 +14,19 @@ namespace AllyTalksClient.Model {
             var type = (string) json["type"];
             var message = new Message();
 
-            if (type == "message") {
-                message = JsonConvert.DeserializeObject<Message>(data);
-            }
-            if (type == "error")
+            switch (type)
             {
-                message = JsonConvert.DeserializeObject<Message>(data);
+                case "message":
+                    message = JsonConvert.DeserializeObject<Message>(data);
+                    break;
+                case "error":
+                    message = JsonConvert.DeserializeObject<Message>(data);
+                    break;
+                case "auth":
+                    message = JsonConvert.DeserializeObject<Message>(data);
+                    break;
             }
-            if (type == "auth")
-            {
-                message = JsonConvert.DeserializeObject<Message>(data);
-            }
-
+           
             return message;
         }
     }
