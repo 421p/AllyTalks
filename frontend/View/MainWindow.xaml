@@ -3,16 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       
+
         xmlns:local="clr-namespace:AllyTalksClient.ViewModel"
         xmlns:spike="clr-namespace:AllyTalksClient.Model"
+        xmlns:message="clr-namespace:AllyTalksClient.Model.Message"
         mc:Ignorable="d"
         Title="AllyTalks" Height="350" Width="600"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type spike:Message}">
+        <DataTemplate DataType="{x:Type message:Message}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
@@ -36,16 +37,15 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <Menu x:Name="mainMenu" DockPanel.Dock="Top" HorizontalAlignment="Left" BorderBrush="Black" Background="AliceBlue">
+        <Menu x:Name="mainMenu" DockPanel.Dock="Top" HorizontalAlignment="Left" BorderBrush="Black"
+              Background="AliceBlue">
             <MenuItem Header="AllyTalks">
                 <Separator />
-                <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
+                <MenuItem Header="_Exit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
         <ToolBar x:Name="mainToolBar" DockPanel.Dock="Top">
-            <Button x:Name="btnExit" Command="{Binding SignOutCommand}" Content="Sign Out">
-              
-            </Button>
+            <Button x:Name="btnExit" Command="{Binding SignOutCommand}" Content="Sign Out" />
             <Separator />
         </ToolBar>
         <Grid DockPanel.Dock="Left">
@@ -63,17 +63,16 @@
                 <StackPanel Height="254">
                     <ListBox x:Name="lstFriends" ItemsSource="{Binding Users}"
                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             Background="Transparent" BorderBrush="Transparent" 
-                             SelectedItem="{Binding CurrentReceiver, Mode=TwoWay}"
-                             />
+                             Background="Transparent" BorderBrush="Transparent"
+                             SelectedItem="{Binding CurrentReceiver, Mode=TwoWay}" />
                 </StackPanel>
             </ScrollViewer>
             <ScrollViewer local:AutoScrollHelper.AutoScroll="{Binding IsNewItemInContainer}" Grid.Column="1"
                           Grid.ColumnSpan="2">
 
                 <ItemsControl x:Name="lstMessages" Grid.RowSpan="3" ItemsSource="{Binding Messages}"
-                         VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         Background="Transparent" BorderBrush="Transparent"/>
+                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              Background="Transparent" BorderBrush="Transparent" />
 
             </ScrollViewer>
             <TextBox x:Name="txtMessage" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="False"
@@ -95,7 +94,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-            
+
             </Grid>
         </Grid>
     </DockPanel>

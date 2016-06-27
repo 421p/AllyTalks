@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using AllyTalksClient.Model;
+using AllyTalksClient.Model.Message;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -31,7 +32,7 @@ namespace AllyTalksClient.ViewModel {
             SignInCommand = new RelayCommand<object>(SignIn);
             SignOutCommand = new RelayCommand(SignOut);
             ExitCommand = new RelayCommand(Exit);
-            CurrentReceiver = JustForTestRepository.AllFriends[0];
+            CurrentReceiver = FixtureRepository.AllFriends[0];
         }
 
         public RelayCommand SendMessageCommand { get; set; }
@@ -53,7 +54,10 @@ namespace AllyTalksClient.ViewModel {
         }
 
         public Message CurrentMessage {
-            get {  return _currentMessage ?? (_currentMessage = new Message("message", _token)); }
+            get { return _currentMessage ?? (_currentMessage = new Message {
+                Type = MessageType.Message,
+                Token = _token
+            }) ; }
             set {
                 _currentMessage = value;
                 RaisePropertyChanged("CurrentMessage");
@@ -70,16 +74,14 @@ namespace AllyTalksClient.ViewModel {
 
         public ObservableCollection<Message> Messages {
             get {
-                return _messages = JustForTestRepository.AllMessages;
+                return _messages = FixtureRepository.AllMessages;
             }
             set {
                 _messages= value;
             }
         }
 
-        public ObservableCollection<User> Users {
-            get { return _users ?? (_users = JustForTestRepository.AllFriends); }
-        }
+        public ObservableCollection<User> Users => _users ?? (_users = FixtureRepository.AllFriends);
 
         public bool IsNewItemInContainer {
             get { return _isNewItemInContainer; }
@@ -102,6 +104,7 @@ namespace AllyTalksClient.ViewModel {
         private void SendMessage()
         {
             CurrentMessage.Receiver = CurrentReceiver.Login;
+
             _messenger.Write(CurrentMessage);
             Messages.Add(CurrentMessage);
 
@@ -159,20 +162,20 @@ namespace AllyTalksClient.ViewModel {
         private bool AuthUser(string login, string password)
         {
             _token = _messenger.GetAuthToken(login, password);
-         
-            if (_token != string.Empty) {
-                _messenger.Connect();
-                _messenger.Write(new Message("auth", _token, "service"));
-                Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
-                return true;
+
+            if (_token == string.Empty) {
+                throw new Exception("Authorization failed! Please check your login and password, then try again!");
             }
-           
-           throw new Exception("Authorization failed! Please check your login and password, then try again!");
+
+            _messenger.Connect();
+            _messenger.Write(new Message(MessageType.Auth, _token, "service"));
+            Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
+            return true;
         }
 
         private void SetChatRoom()
         {
-           JustForTestRepository.SetMessages(CurrentReceiver.Login);
+           FixtureRepository.SetMessages(CurrentReceiver.Login);
            Messenger.Default.Send(Messages);
         }
     }

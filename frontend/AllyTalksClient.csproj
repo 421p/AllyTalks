@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A39DD69C-5F5B-45AC-8EAF-09D6FB8B9C4D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllyTalksClient</RootNamespace>
     <AssemblyName>AllyTalksClient</AssemblyName>
@@ -81,9 +81,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\ClientServerMessanger.cs" />
-    <Compile Include="Model\JustForTestRepository.cs" />
-    <Compile Include="Model\Message.cs" />
-    <Compile Include="Model\MessageHandler.cs" />
+    <Compile Include="Model\FixtureRepository.cs" />
+    <Compile Include="Model\Message\Message.cs" />
+    <Compile Include="Model\Message\MessageSerializer.cs" />
+    <Compile Include="Model\Message\MessageType.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ViewModel\AutoScrollHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

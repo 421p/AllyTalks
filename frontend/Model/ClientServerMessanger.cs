@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
+using AllyTalksClient.Model.Message;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 
@@ -18,7 +19,7 @@ namespace AllyTalksClient.Model {
         public ClientServerMessenger(string url)
         {
             _websocket = new WebSocket(url);
-       
+
             Configure();
         }
 
@@ -26,7 +27,7 @@ namespace AllyTalksClient.Model {
         {
             _websocket.OnMessage +=
                 (sender, e) => {
-                    DispatchIt(() => JustForTestRepository.AllMessages.Add(MessageHandler.DeserializeMessage(e.Data)));
+                    DispatchIt(() => FixtureRepository.AllMessages.Add(MessageSerializer.DeserializeMessage(e.Data)));
                 };
         }
 
@@ -41,10 +42,10 @@ namespace AllyTalksClient.Model {
                 DispatcherPriority.Background, action);
         }
 
-        public void Write(Message message)
+        public void Write(Message.Message message)
         {
-            Console.WriteLine(MessageHandler.SerializeMessage(message));
-            _websocket.Send(MessageHandler.SerializeMessage(message));
+            Console.WriteLine(MessageSerializer.SerializeMessage(message));
+            _websocket.Send(MessageSerializer.SerializeMessage(message));
         }
 
         public string GetAuthToken(string login, string password)
