@@ -11,7 +11,7 @@ namespace AllyTalksClient.Model {
     public class FixtureRepository {
         static FixtureRepository()
         {
-            AvisCollection = new Dictionary<string, BitmapImage>();
+            AvisCollection = new Dictionary<string, BitmapImage> {{"service", LoadBitmapImage("service")}};
         }
 
         public FixtureRepository()
@@ -36,7 +36,9 @@ namespace AllyTalksClient.Model {
             var collection =
                 JsonConvert.DeserializeObject<ObservableCollection<User>>(File.ReadAllText("contacts.json"));
 
-            collection.ToList().ForEach(x => AvisCollection.Add(x.Login, LoadBitmapImage(x.Login)));
+            foreach (var contact in collection) {
+                AvisCollection.Add(contact.Login, LoadBitmapImage(contact.Login));
+            }
 
             return collection;
         }
@@ -55,7 +57,7 @@ namespace AllyTalksClient.Model {
                 );
         }
 
-        private BitmapImage LoadBitmapImage(string login)
+        private static BitmapImage LoadBitmapImage(string login)
         {
             var bi = new BitmapImage();
 
