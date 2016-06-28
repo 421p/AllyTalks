@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Net;
 using System.Text;
 using System.Windows;
@@ -9,16 +10,16 @@ using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 
 namespace AllyTalksClient.Model {
-    public class ClientServerMessenger {
+    public class Messenger {
         private readonly WebSocket _websocket;
         private readonly FixtureRepository _repo;
 
-        public ClientServerMessenger(FixtureRepository repo)
+        public Messenger(FixtureRepository repo)
         {
             _repo = repo;
         }
 
-        public ClientServerMessenger(string url, FixtureRepository repo)
+        public Messenger(string url, FixtureRepository repo)
         {
             _websocket = new WebSocket(url);
             _repo = repo;
@@ -54,10 +55,12 @@ namespace AllyTalksClient.Model {
         {
             string token;
 
+            var url = ConfigurationManager.ConnectionStrings["ApiServer"].ConnectionString;
+
             try {
                 using (var client = new WebClient()) {
                     var response =
-                        client.UploadValues("http://allytalks.loc/api/auth", new NameValueCollection {
+                        client.UploadValues($"{url}/api/auth", new NameValueCollection {
                             {"login", login},
                             {"password", password}
                         });

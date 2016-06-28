@@ -9,10 +9,11 @@ using AllyTalksClient.Model.Message;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Messenger = AllyTalksClient.Model.Messenger;
 
 namespace AllyTalksClient.ViewModel {
     public class MainViewModel : ViewModelBase {
-        private readonly ClientServerMessenger _messenger;
+        private readonly Messenger _messenger;
         private string _token;
         private string _info;
         private Message _currentMessage;
@@ -25,10 +26,9 @@ namespace AllyTalksClient.ViewModel {
 
         public MainViewModel()
         {
-
             _repo = new FixtureRepository();
 
-            _messenger = new ClientServerMessenger(
+            _messenger = new Messenger(
                 ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString,
                 _repo
             );
@@ -175,14 +175,14 @@ namespace AllyTalksClient.ViewModel {
 
             _messenger.Connect();
             _messenger.Write(new Message(MessageType.Auth, _token, "service"));
-            Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(new NotificationMessage("ShowMainWindow"));
             return true;
         }
 
         private void SetChatRoom()
         {
            _repo.SetMessages(CurrentReceiver.Login);
-           Messenger.Default.Send(Messages);
+           GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(Messages);
         }
     }
 }

@@ -11,7 +11,6 @@ namespace AllyTalksClient.Model.Message {
         {
             Receiver = receiver;
             Type = type;
-            Time = DateTime.Now.ToShortTimeString();
             Token = token;
         }
 
@@ -26,9 +25,6 @@ namespace AllyTalksClient.Model.Message {
 
         [JsonProperty(PropertyName = "message")]
         public string Text { get; set; }
-
-        [JsonProperty(PropertyName = "time")]
-        public string Time { get; set; }
 
         [JsonProperty(PropertyName = "token")]
         public string Token { get; set; }

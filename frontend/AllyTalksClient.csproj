@@ -80,7 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\ClientServerMessanger.cs" />
+    <Compile Include="Model\Messanger.cs" />
     <Compile Include="Model\FixtureRepository.cs" />
     <Compile Include="Model\Message\Message.cs" />
     <Compile Include="Model\Message\MessageSerializer.cs" />
