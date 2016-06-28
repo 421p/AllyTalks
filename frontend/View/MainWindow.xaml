@@ -3,25 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
         xmlns:local="clr-namespace:AllyTalksClient.ViewModel"
         xmlns:spike="clr-namespace:AllyTalksClient.Model"
         xmlns:message="clr-namespace:AllyTalksClient.Model.Message"
         mc:Ignorable="d"
-        Title="AllyTalks" Height="350" Width="600"
+        Title="AllyTalks" Height="400" Width="650" MaxWidth="1200"
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-
+    
     <Window.Resources>
         <DataTemplate DataType="{x:Type message:Message}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="250*" />
+                    <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
-                <Label Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,0" 
-                       Content="{Binding Sender}" />
+                <Image Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,10" Stretch="Fill"
+                       Source="{Binding Picture}" />
                 <TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow" Grid.Column="1" Margin="10"
                            VerticalAlignment="Top" />
                 <Label Grid.Column="2" VerticalAlignment="Top" Content="{Binding Time}" />
@@ -60,7 +59,7 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="0" Width="5" VerticalAlignment="Stretch" Grid.RowSpan="2" />
             <ScrollViewer Grid.Column="0" Grid.RowSpan="2">
-                <StackPanel Height="254">
+                <StackPanel>
                     <ListBox x:Name="lstFriends" ItemsSource="{Binding Users}"
                              VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              Background="Transparent" BorderBrush="Transparent"

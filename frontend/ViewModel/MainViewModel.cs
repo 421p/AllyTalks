@@ -46,7 +46,7 @@ namespace AllyTalksClient.ViewModel {
         public RelayCommand<object> SignInCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
-      
+
 
         public User CurrentReceiver {
             get { return _currentReceiver; }
@@ -110,6 +110,7 @@ namespace AllyTalksClient.ViewModel {
         private void SendMessage()
         {
             CurrentMessage.Receiver = CurrentReceiver.Login;
+            CurrentMessage.Sender = CurrentUser.Login;
 
             _messenger.Write(CurrentMessage);
             Messages.Add(CurrentMessage);
@@ -123,6 +124,7 @@ namespace AllyTalksClient.ViewModel {
             if (ConfigurationManager.AppSettings["login"] != string.Empty &&
                 ConfigurationManager.AppSettings["password"] != string.Empty) {
                 AuthUser(ConfigurationManager.AppSettings["login"], ConfigurationManager.AppSettings["password"]);
+                CurrentUser.Login = ConfigurationManager.AppSettings["login"];
             }
         }
 
@@ -130,7 +132,7 @@ namespace AllyTalksClient.ViewModel {
         {
             try {
                 if (AuthUser(CurrentUser.Login, (parameter as PasswordBox).Password)) {
-                    //SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
+                   SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
                 }
             }
             catch (Exception ex) {

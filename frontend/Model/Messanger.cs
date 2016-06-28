@@ -31,10 +31,19 @@ namespace AllyTalksClient.Model {
             _websocket.OnMessage +=
                 (sender, e) => {
                     Message.Message msg = MessageSerializer.DeserializeMessage(e.Data);
-                    if(msg.Sender == _repo.CurrentReceiver.Login || msg.Sender == "service")
-                        DispatchIt(() => _repo.Messages.Add(msg));
-                    else
-                        DispatchIt(() => _repo.History[msg.Sender].Add(msg));
+                    switch (msg.Type)
+                    {
+                        case MessageType.Message:
+                            if (msg.Sender == _repo.CurrentReceiver.Login)
+                                DispatchIt(() => _repo.Messages.Add(msg));
+                            else
+                                DispatchIt(() => _repo.History[msg.Sender].Add(msg));
+                            break;
+                        case MessageType.Error:
+                            DispatchIt(() => _repo.Messages.Add(msg));
+                            break;
+                    }
+                  
                 };
         }
 
@@ -51,7 +60,6 @@ namespace AllyTalksClient.Model {
 
         public void Write(Message.Message message)
         {
-            Console.WriteLine(MessageSerializer.SerializeMessage(message));
             _websocket.Send(MessageSerializer.SerializeMessage(message));
         }
 

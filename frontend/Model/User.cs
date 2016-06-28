@@ -7,7 +7,7 @@ namespace AllyTalksClient.Model {
         {
         }
 
-        public User(string login, string name, string picture)
+        public User(string login, string name=null)
         {
             Login = login;
             Nickname = name;

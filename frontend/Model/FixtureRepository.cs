@@ -40,5 +40,6 @@ namespace AllyTalksClient.Model {
                 File.ReadAllText("history.json")
             );
         }
+     
     }
 }
