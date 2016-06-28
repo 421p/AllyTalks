@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A39DD69C-5F5B-45AC-8EAF-09D6FB8B9C4D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllyTalksClient</RootNamespace>
     <AssemblyName>AllyTalksClient</AssemblyName>
@@ -37,6 +37,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>chat_128px_1201524_easyicon.net.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
@@ -149,7 +152,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="chat_128px_1201524_easyicon.net.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\sign-out.png" />
   </ItemGroup>
