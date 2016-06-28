@@ -105,6 +105,6 @@ class User
 
     public function generateNewToken()
     {
-        $this->setToken(TokenFactory::createToken($this->id));
+        $this->setToken($this->id ? TokenFactory::createToken($this->id) : ':)');
     }
 }
