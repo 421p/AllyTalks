@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
-using System.Configuration;
 
 namespace AllyTalksClient.Model.Message {
     public class Message {
@@ -31,13 +30,6 @@ namespace AllyTalksClient.Model.Message {
         public string Token { get; set; }
 
         [JsonIgnore]
-        public string Picture
-        {
-            get
-            {
-                var url = ConfigurationManager.ConnectionStrings["ApiServer"].ConnectionString;
-                return $"{url}/userpictures/{Sender}.jpg";
-            }
-        }
+        public BitmapImage Picture => FixtureRepository.AvisCollection[Sender];
     }
 }

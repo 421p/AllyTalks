@@ -1,32 +1,11 @@
 ﻿{
    "klepach":[
-      {
-         "sender":null,
-         "receiver":"sher",
-         "type":"message",
-         "message":"Prepod",
-         "time":null,
-         "token":null
-      }
+      
    ],
    "alina":[
-      {
-         "sender":null,
-         "receiver":"sher",
-         "type":"message",
-         "message":"Alya",
-         "time":null,
-         "token":null
-      }
+      
    ],
    "sher":[
-      {
-         "sender":null,
-         "receiver":"sher",
-         "type":"message",
-         "message":"Durak",
-         "time":null,
-         "token":null
-      }
+      
    ]
 }

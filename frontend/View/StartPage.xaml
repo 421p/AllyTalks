@@ -48,6 +48,6 @@
                  TextWrapping="Wrap"
                  AcceptsReturn="True" Grid.ColumnSpan="2" Width="300" BorderThickness="0"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 IsReadOnly="True"/>
+                 IsReadOnly="True" />
     </Grid>
 </Window>
