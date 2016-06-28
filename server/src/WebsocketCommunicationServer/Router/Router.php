@@ -2,6 +2,7 @@
 
 namespace AllyTalks\WebsocketCommunicationServer\Router;
 
+use AllyTalks\Utils\Token\TokenFactory;
 use AllyTalks\WebsocketCommunicationServer\Client\Client;
 use AllyTalks\WebsocketCommunicationServer\CommServer;
 use Ratchet\ConnectionInterface;
@@ -21,9 +22,13 @@ class Router
         switch ($message['type']) {
             case 'auth' :
                 $token = $message['token'];
-                $user = $this->server->getModel()->getUserByToken($token);
+                $user = $this->server->getModel()->getUserById(
+                    TokenFactory::extractId($token)
+                );
 
-                if ($user->getToken() == $token) {
+                $this->server->getModel()->refreshUser($user);
+
+                if ($user->getToken() === $token) {
                     $this->server->addClient(new Client($sender, $user));
                     $sender->send(json_encode([
                         'sender' => 'service',
@@ -31,7 +36,7 @@ class Router
                         'message' => 'success',
                     ]));
                 } else {
-                    throw new \RuntimeException('Incorrect token.');
+                    throw new \RuntimeException('Incorrect!!! token.' . $user->getToken() . ' and ' . $token);
                 }
 
                 break;
@@ -49,18 +54,16 @@ class Router
                 $receiver = $message['receiver'];
 
                 /** @var Client $from */
-                $from = Enumerable::from($this->server->getClients())->where(
-                    function (Client $c) use ($sender) {
-                        return $c->getResourceId() === $sender->resourceId;
-                    }
-                )->firstOrDefault();
+                $from = $this->server->getClients()[$token];
+
+                $this->server->getModel()->refreshUser($from->getUser());
 
                 if (!$from) {
                     throw new \RuntimeException('Wrong client.');
                 }
 
                 if ($from->getUser()->getToken() !== $token) {
-                    throw new \RuntimeException('Incorrect token.');
+                    throw new \RuntimeException('Incorrect token' . $token . ' and ' . $from->getUser()->getToken());
                 }
 
                 /** @var Client $to */

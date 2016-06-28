@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
+using Newtonsoft.Json;
 
-namespace AllyTalksClient.Model
-{
-    public class User
-    {
-        public string Login { get; set; }
-        public string Nickname { get; set; }
-        public string Picture { get; set; }
+namespace AllyTalksClient.Model {
+    public class User {
+        public User()
+        {
+        }
 
-        public User() { }
-
-        public User(string login, string name, string picture)
+        public User(string login, string name=null)
         {
             Login = login;
             Nickname = name;
-            Picture = picture;
+        }
+
+        public string Login { get; set; }
+        public string Nickname { get; set; }
+
+        [JsonIgnore]
+        public string Picture {
+            get {
+                var url = ConfigurationManager.ConnectionStrings["ApiServer"].ConnectionString;
+                return $"{url}/userpictures/{Login}.jpg";
+            }
         }
     }
 }
