@@ -2,6 +2,7 @@
 
 namespace AllyTalks\WebsocketCommunicationServer\Router;
 
+use AllyTalks\Utils\Token\TokenFactory;
 use AllyTalks\WebsocketCommunicationServer\Client\Client;
 use AllyTalks\WebsocketCommunicationServer\CommServer;
 use Ratchet\ConnectionInterface;
@@ -21,7 +22,9 @@ class Router
         switch ($message['type']) {
             case 'auth' :
                 $token = $message['token'];
-                $user = $this->server->getModel()->getUserByToken($token);
+                $user = $this->server->getModel()->getUserById(
+                    TokenFactory::extractId($token)
+                );
 
                 $this->server->getModel()->refreshUser($user);
 
@@ -51,11 +54,7 @@ class Router
                 $receiver = $message['receiver'];
 
                 /** @var Client $from */
-                $from = Enumerable::from($this->server->getClients())->where(
-                    function (Client $c) use ($sender) {
-                        return $c->getResourceId() === $sender->resourceId;
-                    }
-                )->firstOrDefault();
+                $from = $this->server->getClients()[$token];
 
                 $this->server->getModel()->refreshUser($from->getUser());
 
