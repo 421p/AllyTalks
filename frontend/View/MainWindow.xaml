@@ -20,8 +20,8 @@
                     <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <Image Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,0" Stretch="Fill"
-                       Source="{Binding Sender.Picture}" />
+                <Label Width="30" Height="30" VerticalAlignment="Top" Margin="5,10,5,0" 
+                       Content="{Binding Sender}" />
                 <TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow" Grid.Column="1" Margin="10"
                            VerticalAlignment="Top" />
                 <Label Grid.Column="2" VerticalAlignment="Top" Content="{Binding Time}" />

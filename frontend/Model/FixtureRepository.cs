@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace AllyTalksClient.Model {
     public class FixtureRepository {
         public User CurrentUser { get; set; }
+        public User CurrentReceiver { get; set; }
 
         public FixtureRepository()
         {
@@ -28,6 +30,7 @@ namespace AllyTalksClient.Model {
         public void SetMessages(string login)
         {
             Messages = History[login];
+            CurrentReceiver = Contacts.Where(n => n.Login == login).First();
         }
 
         private Dictionary<string, ObservableCollection<Message.Message>> LoadHistory()

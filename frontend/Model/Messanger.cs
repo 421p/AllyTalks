@@ -30,7 +30,11 @@ namespace AllyTalksClient.Model {
         {
             _websocket.OnMessage +=
                 (sender, e) => {
-                    DispatchIt(() => _repo.Messages.Add(MessageSerializer.DeserializeMessage(e.Data)));
+                    Message.Message msg = MessageSerializer.DeserializeMessage(e.Data);
+                    if(msg.Sender == _repo.CurrentReceiver.Login || msg.Sender == "service")
+                        DispatchIt(() => _repo.Messages.Add(msg));
+                    else
+                        DispatchIt(() => _repo.History[msg.Sender].Add(msg));
                 };
         }
 
