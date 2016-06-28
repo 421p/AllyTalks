@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using GalaSoft.MvvmLight.Messaging;
 
-namespace AllyTalksClient.View
-{
+namespace AllyTalksClient.View {
     /// <summary>
-    /// Interaction logic for StartPage.xaml
+    ///     Interaction logic for StartPage.xaml
     /// </summary>
-    public partial class StartPage : Window
-    {
+    public partial class StartPage : Window {
         public StartPage()
         {
             InitializeComponent();
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+        }
+
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "ShowMainWindow") {
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
+                Close();
+            }
         }
     }
 }

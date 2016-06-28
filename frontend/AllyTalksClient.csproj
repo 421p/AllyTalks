@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A39DD69C-5F5B-45AC-8EAF-09D6FB8B9C4D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllyTalksClient</RootNamespace>
     <AssemblyName>AllyTalksClient</AssemblyName>
@@ -37,6 +37,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>chat_128px_1201524_easyicon.net.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
@@ -80,10 +83,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\ClientServerMessanger.cs" />
-    <Compile Include="Model\JustForTestRepository.cs" />
-    <Compile Include="Model\Message.cs" />
-    <Compile Include="Model\MessageHandler.cs" />
+    <Compile Include="Model\Messanger.cs" />
+    <Compile Include="Model\FixtureRepository.cs" />
+    <Compile Include="Model\Message\Message.cs" />
+    <Compile Include="Model\Message\MessageSerializer.cs" />
+    <Compile Include="Model\Message\MessageType.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ViewModel\AutoScrollHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -91,31 +95,7 @@
     <Compile Include="View\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Themes\BureauBlack.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\BureauBlue.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ExpressionDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ExpressionLight.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ShinyBlue.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ShinyRed.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\WhistlerBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -154,38 +134,30 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="contacts.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="history.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\home.png" />
+    <Resource Include="chat_128px_1201524_easyicon.net.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\contacts.png" />
+    <Resource Include="Images\sign-out.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\exit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\clip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\smile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\send.png" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

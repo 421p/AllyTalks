@@ -7,6 +7,7 @@ use AllyTalks\WebsocketCommunicationServer\Client\Client;
 use AllyTalks\WebsocketCommunicationServer\Router\Router;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use YaLinqo\Enumerable;
 
 class CommServer implements MessageComponentInterface
 {
@@ -29,8 +30,17 @@ class CommServer implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-        if (array_key_exists($conn->resourceId, $this->clients)) {
+        if (array_key_exists($conn->resourceId, $this->randomConnections)) {
             unset($this->randomConnections[$conn->resourceId]);
+        }
+
+        /** @var Client $client */
+        $client = Enumerable::from($this->clients)->where(function(Client $x) use ($conn) {
+            return $x->getResourceId() === $conn->resourceId;
+        })->firstOrDefault();
+
+        if ($client) {
+            unset($this->clients[array_search($client, $this->clients)]);
         }
     }
 
@@ -62,13 +72,11 @@ class CommServer implements MessageComponentInterface
 
     public function addClient(Client $client)
     {
-        foreach ($this->clients as $i => $cli) {
-            if ($client->getResourceId() === $cli->getResourceId()) {
-                unset($this->clients[$i]);
-            }
+        if (array_key_exists($token = $client->getUser()->getToken(), $this->clients)) {
+            unset($this->clients[$token]);
         }
 
-        $this->clients[] = $client;
+        $this->clients[$client->getUser()->getToken()] = $client;
         unset($this->randomConnections[$client->getConnection()->resourceId]);
     }
 
@@ -83,10 +91,6 @@ class CommServer implements MessageComponentInterface
             throw new \RuntimeException('No client found.');
         }
 
-        foreach ($this->clients as $i => $cli) {
-            if ($client->getResourceId() === $cli->getResourceId()) {
-                unset($this->clients[$i]);
-            }
-        }
+        unset($this->clients[$client->getUser()->getToken()]);
     }
 }

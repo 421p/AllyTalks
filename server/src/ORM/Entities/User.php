@@ -2,6 +2,7 @@
 
 namespace AllyTalks\ORM\Entities;
 
+use AllyTalks\Utils\Token\TokenFactory;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -104,6 +105,6 @@ class User
 
     public function generateNewToken()
     {
-        $this->setToken(urlencode(openssl_random_pseudo_bytes(16)));
+        $this->setToken($this->id ? TokenFactory::createToken($this->id) : ':)');
     }
 }

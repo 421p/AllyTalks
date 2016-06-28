@@ -86,6 +86,22 @@ class Model
         }
     }
 
+    public function getUserById(int $id) : User
+    {
+        $user = $this->em->find(User::class, $id);
+
+        if ($user) {
+            return $user;
+        } else {
+            throw new \RuntimeException('No user found with current id.');
+        }
+    }
+
+    public function refreshUser(User $user)
+    {
+        $this->em->refresh($user);
+    }
+
     public function initiateFlushing()
     {
         $this->em->flush();
