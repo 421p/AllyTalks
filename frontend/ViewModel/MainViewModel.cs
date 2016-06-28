@@ -14,15 +14,15 @@ using Messenger = AllyTalksClient.Model.Messenger;
 namespace AllyTalksClient.ViewModel {
     public class MainViewModel : ViewModelBase {
         private readonly Messenger _messenger;
-        private string _token;
-        private string _info;
+        private readonly FixtureRepository _repo;
         private Message _currentMessage;
         private User _currentReceiver;
         private User _currentUser;
+        private string _info;
         private bool _isNewItemInContainer;
         private ObservableCollection<Message> _messages;
+        private string _token;
         private ObservableCollection<User> _users;
-        private readonly FixtureRepository _repo;
 
         public MainViewModel()
         {
@@ -31,7 +31,7 @@ namespace AllyTalksClient.ViewModel {
             _messenger = new Messenger(
                 ConfigurationManager.ConnectionStrings["ServerConnection"].ConnectionString,
                 _repo
-            );
+                );
 
             SendMessageCommand = new RelayCommand(SendMessage);
             StartPageLoadedCommand = new RelayCommand(StartPageLoaded);
@@ -51,7 +51,7 @@ namespace AllyTalksClient.ViewModel {
         public User CurrentReceiver {
             get { return _currentReceiver; }
             set {
-                if (_currentReceiver != value){
+                if (_currentReceiver != value) {
                     _currentReceiver = value;
                     SetChatRoom();
                 }
@@ -60,10 +60,12 @@ namespace AllyTalksClient.ViewModel {
         }
 
         public Message CurrentMessage {
-            get { return _currentMessage ?? (_currentMessage = new Message {
-                Type = MessageType.Message,
-                Token = _token
-            }) ; }
+            get {
+                return _currentMessage ?? (_currentMessage = new Message {
+                    Type = MessageType.Message,
+                    Token = _token
+                });
+            }
             set {
                 _currentMessage = value;
                 RaisePropertyChanged("CurrentMessage");
@@ -79,12 +81,8 @@ namespace AllyTalksClient.ViewModel {
         }
 
         public ObservableCollection<Message> Messages {
-            get {
-                return _messages = _repo.Messages;
-            }
-            set {
-                _messages= value;
-            }
+            get { return _messages = _repo.Messages; }
+            set { _messages = value; }
         }
 
         public ObservableCollection<User> Users => _users ?? (_users = _repo.Contacts);
@@ -97,11 +95,9 @@ namespace AllyTalksClient.ViewModel {
             }
         }
 
-        public string Info
-        {
+        public string Info {
             get { return _info; }
-            set
-            {
+            set {
                 _info = value;
                 RaisePropertyChanged("Info");
             }
@@ -132,7 +128,7 @@ namespace AllyTalksClient.ViewModel {
         {
             try {
                 if (AuthUser(CurrentUser.Login, (parameter as PasswordBox).Password)) {
-                   SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
+                    SetConfigData(CurrentUser.Login, (parameter as PasswordBox).Password);
                 }
             }
             catch (Exception ex) {
@@ -166,7 +162,7 @@ namespace AllyTalksClient.ViewModel {
             Application.Current.Shutdown();
         }
 
-        
+
         private bool AuthUser(string login, string password)
         {
             _token = _messenger.GetAuthToken(login, password);
@@ -183,8 +179,8 @@ namespace AllyTalksClient.ViewModel {
 
         private void SetChatRoom()
         {
-           _repo.SetMessages(CurrentReceiver.Login);
-           GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(Messages);
+            _repo.SetMessages(CurrentReceiver.Login);
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(Messages);
         }
     }
 }

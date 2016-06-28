@@ -11,8 +11,8 @@ using WebSocketSharp;
 
 namespace AllyTalksClient.Model {
     public class Messenger {
-        private readonly WebSocket _websocket;
         private readonly FixtureRepository _repo;
+        private readonly WebSocket _websocket;
 
         public Messenger(FixtureRepository repo)
         {
@@ -30,9 +30,8 @@ namespace AllyTalksClient.Model {
         {
             _websocket.OnMessage +=
                 (sender, e) => {
-                    Message.Message msg = MessageSerializer.DeserializeMessage(e.Data);
-                    switch (msg.Type)
-                    {
+                    var msg = MessageSerializer.DeserializeMessage(e.Data);
+                    switch (msg.Type) {
                         case MessageType.Message:
                             if (msg.Sender == _repo.CurrentReceiver.Login)
                                 DispatchIt(() => _repo.Messages.Add(msg));
@@ -43,7 +42,6 @@ namespace AllyTalksClient.Model {
                             DispatchIt(() => _repo.Messages.Add(msg));
                             break;
                     }
-                  
                 };
         }
 

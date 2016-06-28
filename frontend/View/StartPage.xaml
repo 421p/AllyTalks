@@ -38,9 +38,23 @@
         </Label>
         <TextBox Text="{Binding CurrentUser.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"
                  Height="24" Width="180" VerticalAlignment="Center"
-                 HorizontalAlignment="Left" Margin="5,9,0,11" Grid.Column="1" />
+                 HorizontalAlignment="Left" Margin="5,9,0,11" Grid.Column="1">
+            <TextBox.InputBindings>
+                <KeyBinding
+                    Key="Enter"
+                    Command="{Binding SignInCommand}"
+                    CommandParameter="{Binding ElementName=txtPassword}" />
+            </TextBox.InputBindings>
+        </TextBox>
         <PasswordBox Name="txtPassword" Grid.Row="3" Height="24" Width="180" VerticalAlignment="Center"
-                     HorizontalAlignment="Left" Margin="5,9,0,11" Grid.Column="1" />
+                     HorizontalAlignment="Left" Margin="5,9,0,11" Grid.Column="1">
+            <PasswordBox.InputBindings>
+                <KeyBinding
+                    Key="Enter"
+                    Command="{Binding SignInCommand}"
+                    CommandParameter="{Binding ElementName=txtPassword}" />
+            </PasswordBox.InputBindings>
+        </PasswordBox>
         <Button Grid.Row="4" FontSize="14"
                 Content="Sign in" Command="{Binding SignInCommand}"
                 CommandParameter="{Binding ElementName=txtPassword}" Grid.ColumnSpan="2" Height="50" Width="100" />
@@ -48,6 +62,6 @@
                  TextWrapping="Wrap"
                  AcceptsReturn="True" Grid.ColumnSpan="2" Width="300" BorderThickness="0"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 IsReadOnly="True"/>
+                 IsReadOnly="True" />
     </Grid>
 </Window>

@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using AllyTalksClient.Model;
 using AllyTalksClient.Model.Message;
 using GalaSoft.MvvmLight.Messaging;
-using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
 
 namespace AllyTalksClient.View {
     /// <summary>
