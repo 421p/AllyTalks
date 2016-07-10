@@ -36,4 +36,6 @@ class Render extends Controller
     {
         return $this->twig->render('register.twig');
     }
+
+   
 }

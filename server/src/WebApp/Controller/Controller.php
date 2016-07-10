@@ -25,7 +25,7 @@ abstract class Controller implements ControllerInterface
     {
         preg_match('#@method\s(?<method>.+)#', $doc, $matches);
 
-        $method = $matches['method'];
+        $method = trim($matches['method']);
 
         preg_match('#@route\s(?<route>.+)#', $doc, $matches);
 

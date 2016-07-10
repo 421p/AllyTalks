@@ -9,6 +9,7 @@ use AllyTalks\WebApp\Controller\ControllerInterface;
 use AllyTalks\WebApp\Controller\Registration;
 use AllyTalks\WebApp\Controller\Render;
 use AllyTalks\WebApp\Controller\Test;
+use AllyTalks\WebApp\Controller\UpdateProfile;
 use Silex\Application as SilexApp;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,6 +70,7 @@ class Application extends SilexApp
             new Test($this),
             new Render($this),
             new Registration($this),
+            new UpdateProfile($this),
             new Auth($this->model),
         ];
     }

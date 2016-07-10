@@ -69,6 +69,7 @@ class Registration extends Controller
 
         try {
             $user = $this->model->addUser($data);
+            $this->uploadAvatar();
         } catch (SpookyException $e) {
             throw new JsonException('User already exists.');
         }
