@@ -33,6 +33,43 @@ class UpdateProfile extends Controller
      */
     public function updateUserInfo(Request $request)
     {
-        return new Response('Thank you for your registration!');
+        $login = $request->request->get('login');
+        $password = $this->prepareData($request->request->get('password'));
+        $nickname = $this->prepareData($request->request->get('nickname'));
+        $email = $this->prepareData($request->request->get('email'));
+        //$picture = $request->request->get('picture');
+
+        if($login != null) {
+            /*
+            if ($picture != null) {
+                $picture->move('server/www/userpictures', $login);
+            }
+            */
+            $user = $this->model->getUserByLogin($login);
+
+            if ($password != null && !$user->verifyPassword($password)) {
+                $user->setPasswordHash($password);
+            }
+
+            if ($nickname != null && $nickname != $user->getNickname()) {
+                $user->setNickname($nickname);
+            }
+
+            if ($email != null && filter_var($email, FILTER_VALIDATE_EMAIL)
+                && $email != $user->getEmail()
+            ) {
+                $user->setEmail($email);
+            }
+
+            $this->model->initiateFlushing();
+        }
+        return new Response('Just Test');
+    }
+
+    private function prepareData($data)
+    {
+        $data = trim(stripslashes(htmlspecialchars($data)));
+
+        return $data;
     }
 }

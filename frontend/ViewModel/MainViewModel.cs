@@ -38,6 +38,7 @@ namespace AllyTalksClient.ViewModel {
             SignInCommand = new RelayCommand<object>(SignIn);
             SignOutCommand = new RelayCommand(SignOut);
             ExitCommand = new RelayCommand(Exit);
+            ChangePictureCommand = new RelayCommand(ChangePicture);
             CurrentReceiver = _repo.Contacts[0];
         }
 
@@ -46,7 +47,7 @@ namespace AllyTalksClient.ViewModel {
         public RelayCommand<object> SignInCommand { get; set; }
         public RelayCommand SignOutCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
-
+        public RelayCommand ChangePictureCommand { get; set; }
 
         public User CurrentReceiver {
             get { return _currentReceiver; }
@@ -145,6 +146,11 @@ namespace AllyTalksClient.ViewModel {
         private void Exit()
         {
             Application.Current.Shutdown();
+        }
+
+        private void ChangePicture()
+        {
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(new NotificationMessage("ShowUserPictureWindow"));
         }
 
         private void SetConfigData(string login = "", string password = "")
