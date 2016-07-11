@@ -41,6 +41,10 @@ namespace AllyTalksClient.Model {
                         case MessageType.Error:
                             DispatchIt(() => _repo.Messages.Add(msg));
                             break;
+                        case MessageType.Auth:
+                            _repo.CurrentUser.Nickname = msg.Receiver;
+                            Console.WriteLine("=>" + msg.Text);
+                            break;
                     }
                 };
         }

@@ -3,11 +3,7 @@
 namespace AllyTalks\WebApp\Controller;
 
 use AllyTalks\Assertion\Assertion;
-use AllyTalks\Utils\Exception\JsonException;
-use AllyTalks\Utils\Exception\SpookyException;
 use AllyTalks\WebApp\Application;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class UpdateProfile extends Controller
@@ -28,8 +24,6 @@ class UpdateProfile extends Controller
      * @route /api/update
      *
      * @param Request $request
-     *
-     * @return Response
      */
     public function updateUserInfo(Request $request)
     {
@@ -48,7 +42,7 @@ class UpdateProfile extends Controller
             $user = $this->model->getUserByLogin($login);
 
             if ($password != null && !$user->verifyPassword($password)) {
-                $user->setPasswordHash($password);
+                $user->setPasswordHash(password_hash($password, PASSWORD_BCRYPT));
             }
 
             if ($nickname != null && $nickname != $user->getNickname()) {
@@ -58,12 +52,12 @@ class UpdateProfile extends Controller
             if ($email != null && filter_var($email, FILTER_VALIDATE_EMAIL)
                 && $email != $user->getEmail()
             ) {
+                Assertion::email($email, 'Incorrect email.');
                 $user->setEmail($email);
             }
 
             $this->model->initiateFlushing();
         }
-        return new Response('Just Test');
     }
 
     private function prepareData($data)

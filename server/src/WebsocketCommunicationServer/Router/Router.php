@@ -34,9 +34,10 @@ class Router
                         'sender' => 'service',
                         'type' => 'auth',
                         'message' => 'success',
+                        'receiver' => $user->getNickname(),
                     ]));
                 } else {
-                    throw new \RuntimeException('Incorrect!!! token.' . $user->getToken() . ' and ' . $token);
+                    throw new \RuntimeException('Incorrect token.' . $user->getToken() . ' and ' . $token);
                 }
 
                 break;
@@ -63,7 +64,7 @@ class Router
                 }
 
                 if ($from->getUser()->getToken() !== $token) {
-                    throw new \RuntimeException('Incorrect token' . $token . ' and ' . $from->getUser()->getToken());
+                    throw new \RuntimeException('Incorrect token.');
                 }
 
                 /** @var Client $to */

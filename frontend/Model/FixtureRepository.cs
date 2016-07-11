@@ -19,6 +19,7 @@ namespace AllyTalksClient.Model {
             Contacts = LoadContacts();
             Messages = new ObservableCollection<Message.Message>();
             History = LoadHistory();
+            CurrentUser = new User(ConfigurationManager.AppSettings["login"]); 
         }
 
         public User CurrentUser { get; set; }

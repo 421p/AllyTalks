@@ -1,8 +1,11 @@
 ﻿using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
+using GalaSoft.MvvmLight;
 
 namespace AllyTalksClient.Model {
-    public class User {
+    public class User : ViewModelBase{
+        private string _nickname;
+
         public User()
         {
         }
@@ -12,9 +15,17 @@ namespace AllyTalksClient.Model {
             Login = login;
             Nickname = name;
         }
+       
+        public string Nickname
+        {
+            get { return _nickname; }
+            set {
+                _nickname = value;
+                RaisePropertyChanged("Nickname");
+            }
+        }
 
         public string Login { get; set; }
-        public string Nickname { get; set; }
 
         [JsonIgnore]
         public BitmapImage Picture => FixtureRepository.AvisCollection[Login];

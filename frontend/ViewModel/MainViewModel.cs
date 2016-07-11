@@ -74,7 +74,7 @@ namespace AllyTalksClient.ViewModel {
         }
 
         public User CurrentUser {
-            get { return _currentUser ?? (_currentUser = new User()); }
+            get { return _currentUser ?? (_currentUser = _repo.CurrentUser); }
             set {
                 _currentUser = value;
                 RaisePropertyChanged("CurrentUser");
@@ -121,7 +121,6 @@ namespace AllyTalksClient.ViewModel {
             if (ConfigurationManager.AppSettings["login"] != string.Empty &&
                 ConfigurationManager.AppSettings["password"] != string.Empty) {
                 AuthUser(ConfigurationManager.AppSettings["login"], ConfigurationManager.AppSettings["password"]);
-                CurrentUser.Login = ConfigurationManager.AppSettings["login"];
             }
         }
 
