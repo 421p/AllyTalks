@@ -8,8 +8,8 @@ use AllyTalks\ORM\DoctrineFactory;
 
 $em = DoctrineFactory::buildEntityManagerFromConfig();
 
-exec(__DIR__.'/doctrine orm:schema-tool:drop --force');
-exec(__DIR__.'/doctrine orm:schema-tool:create');
+exec('php '.__DIR__.'/doctrine orm:schema-tool:drop --force');
+exec('php '.__DIR__.'/doctrine orm:schema-tool:create');
 
 DoctrineFactory::loadFixtures($em);
 
